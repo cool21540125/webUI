@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Factory machine</title>
-   
+
     <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="css/my.css">
 
@@ -15,8 +15,42 @@
 </head>
 
 <body>
-    <button onclick="addMachine()">新增機台</input>
 
+    <div class="container"></div>
+        <header>
+            <!-- Top Side -->
+            <h2>Factory</h2>
+        </header>
+
+        
+        <nav>
+            <!-- Left Side -->
+            <button onclick="addMachine()">Add new...</button>
+            <br />
+
+            <select name="image" onchange="document.getElementById('myImage').src = 'img/' + this.value;">
+                    <option value="">Choose one</option>
+                    <option value="001.jpg">Factory</option>
+                    <option value="002.jpg">Machine</option>
+                    <option value="003.jpg">Monitor</option>
+                </select>
+            <br />
+
+            <img src="" id="myImage" width="100px" height="100px" alt="">
+        </nav>
+
+
+        <article>
+            <!-- Right Side -->
+            <canvas onload="init();" id="InitCanvas"></canvas>
+        </article>
+    </div>
+
+
+    <footer>
+        <!-- Foot Note -->
+        start from 2017/09/12...
+    </footer>
 </body>
 
 </html>

@@ -7,11 +7,26 @@ function addMachine() {
     var ctx = machine.getContext("2d");
     ctx.font = "30px Arial";
     ctx.fillText("New machine", 10, 30);
+    machine.className = "ui-draggable";
     
     // Let canvas draggable by jQuery UI
-    machine.className = "ui-draggable";
+    var initCanvas = document.getElementById("InitCanvas");
+    initCanvas.appendChild(machine);
+    // document.body.appendChild(machine);
     $(".ui-draggable").draggable();
-
-    document.body.appendChild(machine);
 }
+
+// 改變範例圖片
+function changeImgReview() {
+    document.getElementById("demo_img").src = "img/"+dir.photo.value; 
+    document.getElementById("demo_img").style.display = ""; 
+}
+
+
+function aa() {
+    document.getElementById("demo_img").innerHTML="<img src='images/aftersurprise.png' />";
+
+}
+
+
 
