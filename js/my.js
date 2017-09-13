@@ -1,12 +1,17 @@
-// 點選後, 新增新的機台
-function addNew() {
 
-    var machine = document.createElement("div");
-    var t = document.createTextNode("新機器");
-    machine.appendChild(t);
+
+// 新增機器by click
+function addMachine() {
+    // Add new canvas
+    var machine = document.createElement("canvas");
+    var ctx = machine.getContext("2d");
+    ctx.font = "30px Arial";
+    ctx.fillText("New machine", 10, 30);
+    
+    // Let canvas draggable by jQuery UI
     machine.className = "ui-draggable";
-    document.body.appendChild(machine);
-
     $(".ui-draggable").draggable();
 
+    document.body.appendChild(machine);
 }
+
