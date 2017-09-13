@@ -25,8 +25,8 @@
         var context = canvas.getContext("2d");
 
         imageObj.onload = function() {
-          dynamicContext.drawImage(imageObj, 69, 50);
-          context=context.drawImage(dynamicCanvas,69,50);
+          dynamicContext.drawImage(imageObj, 40, 50);
+          context=context.drawImage(dynamicCanvas,50,50);
           window.open(canvas.toDataURL());
         };
       };

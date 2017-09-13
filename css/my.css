@@ -37,7 +37,8 @@ article {
 
 /* 初始畫布 */
 canvas#InitCanvas {
-    background-color: #0b0;
+    /* background-color: #0b0; */
+    border: 1px solid #000;
     width: 1080px;
     height: 480px;
 }

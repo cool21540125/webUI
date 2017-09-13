@@ -22,21 +22,23 @@
             <h2>Factory</h2>
         </header>
 
-        
+
         <nav>
             <!-- Left Side -->
-            <button onclick="addMachine()">Add new...</button>
-            <br />
-
+            <p>Prototype</p>
             <select name="image" onchange="document.getElementById('myImage').src = 'img/' + this.value;">
-                    <option value="">Choose one</option>
                     <option value="001.jpg">Factory</option>
                     <option value="002.jpg">Machine</option>
                     <option value="003.jpg">Monitor</option>
                 </select>
+                <button onclick="addMachine()">Add new...</button>
             <br />
 
-            <img src="" id="myImage" width="100px" height="100px" alt="">
+            <p>Drag from here</p>
+            <div></div>
+            
+            
+            <img src="img/001.jpg" id="myImage" width="100px" height="100px" alt="">
         </nav>
 
 
