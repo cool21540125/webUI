@@ -10,42 +10,50 @@
 
     <script src="js/jquery-1.12.1.js"></script>
     <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
-    <script src="js/my.js"></script>
+    <script src="js/my.js"></script> 
 
 </head>
 
 <body>
 
     <div class="container"></div>
-        <header>
-            <!-- Top Side -->
-            <h2>Factory</h2>
-        </header>
+    <header>
+        <!-- Top Side -->
+        <h2>Factory</h2>
+    </header>
 
 
-        <nav>
-            <!-- Left Side -->
-            <p>Prototype</p>
-            <select name="image" onchange="document.getElementById('myImage').src = 'img/' + this.value;">
-                    <option value="001.jpg">Factory</option>
-                    <option value="002.jpg">Machine</option>
-                    <option value="003.jpg">Monitor</option>
-                </select>
-                <button onclick="addMachine()">Add new...</button>
-            <br />
+    <nav>
+        <!-- Left Side -->
+        <p>
+            Prototype:
+            <img src="img/001.jpg" id="myImage" border="1px" alt="" />
+        </p>
 
-            <p>Drag from here</p>
-            <div></div>
-            
-            
-            <img src="img/001.jpg" id="myImage" width="100px" height="100px" alt="">
-        </nav>
+        <select id="demo_img" onchange="changeImgReview();">
+            <option value="001.jpg">Factory</option>
+            <option value="002.jpg">Machine</option>
+            <option value="003.jpg">Monitor</option>
+        </select>
+
+        <button onclick="addMachine();">Add new...</button>
+        <br />
+
+        <p>Drag here to drop object</p>
+
+        <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        
+        <div></div>
+
+        
+
+    </nav>
 
 
-        <article>
-            <!-- Right Side -->
-            <canvas onload="init();" id="InitCanvas"></canvas>
-        </article>
+    <article>
+        <!-- Right Side -->
+        <canvas id="InitCanvas"></canvas>
+    </article>
     </div>
 
 

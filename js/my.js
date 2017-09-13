@@ -1,43 +1,54 @@
 // Left Side button onchange=改變範例圖片
 function changeImgReview() {
-    document.getElementById("demo_img").src = "img/" + dir.photo.value;
-    document.getElementById("demo_img").style.display = "";
+    document.getElementById("myImage").src = "img/" + document.getElementById("demo_img").value;
 }
 
 // 新增機器by click
-// https://stackoverflow.com/questions/8886248/add-image-to-page-onclick
 function addMachine() {
-    // Add new Canvas && Image
-    var img = document.createElement("img");
-    img.src = document.getElementById("myImage").src;
-    img.height = 50;
-    img.width = 50;
+    var s = 50;
+    // Add new Canvas, drawImage on canvas
+    var c = document.createElement("canvas");
+    c.height = s;
+    c.width = s;
+    var ctx = c.getContext("2d");
 
-    img.setAttribute("class", "ui-draggable");
+    // Draw image on canvas
+    var img = document.getElementById("myImage");
+    ctx.drawImage(img, 0, 0, s, s);
 
-    document.body.appendChild(img);
-
-    // Let canvas draggable by jQuery UI
-    // document.body.appendChild(newImg);
-    // ctx.className = "ui-draggable";
+    // Append canvas && let it draggable
+    document.body.appendChild(c);
+    c.className = "ui-draggable";
     $(".ui-draggable").draggable();
 }
 
-// https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_img
-function myCanvas() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var img = document.getElementById("scream");
-    ctx.drawImage(img, 10, 10);
+
+function getMouseXY(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    return x, y;
 }
 
+// document.addEventListener("dblclick", function () {
+//     addMachine();
+//     var myState = this;
+//     var s = 50;
+//     var mouse = myState.getMouse(event);
+//     x, y = getMouseXY(event);
+//     myState.addShape(new Shape(x - 10, y - 10, s, s,
+//         'rgba(0,255,0,.6)'));
+// });
+
+// var x = document.getElementById("myBtn");
+// x.addEventListener("click", myFunction);
+
+$('document').ready( function() {
+    var xx = document.getElementsByClassName("ui-draggable");
+    for (var i = 0 ; i < xx.length; i++) {
+        xx[i].addEventListener('click' , function() { alert("hi"); } , false ) ; 
+     }
+    
+    
+});
 
 
-// https://stackoverflow.com/questions/27629122/how-to-get-all-ids-inside-of-a-div-using-pure-javascript
-// 計算畫面中有多少Canvas, 用來新增新id
-// function getCanvasID() {
-//     var everyChild = document.querySelectorAll("#container div");
-//     for (var i = 0; i<everyChild.length; i++) {
-//         everyChild[i].classList.add("anything");
-//     }
-// }
