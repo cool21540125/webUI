@@ -1,3 +1,15 @@
+## 遇到的技術問題
+
+### 相關方法
+
+|範例| 動作 | 來源 | 問題 |
+| --- | --- | --- | --- |
+| @1 | 兩個div之間拖曳圖片 | [w3c html5](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop2) | 1. 只能在div區塊之間拖拉(拖曳到canvas的話會消失) <br /> 2. 一個div區塊內, 只能放置一張圖片
+| @2 | HTML5 Canvas | [canvas drawImage()](http://www.html5canvastutorials.com/tutorials/html5-canvas-images/) | 一個Canvas只能畫1張圖 |
+
+
+
+
 ## webUI相關參考來源
 
 ### 線上Coding
@@ -15,10 +27,14 @@
 ### 互動式Canvas
 - [A Gentle Introduction to Making HTML5 Canvas Interactive](https://simonsarris.com/making-html5-canvas-useful/)
 -[物件double click](https://simonsarris.com/making-html5-canvas-useful/)
-- [W3C - 兩個區塊拖曳物件](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop2)
-- [HTML5 drag & drop](https://www.w3schools.com/html/html5_draganddrop.asp)
-- [取得滑鼠位置](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_event_mouse_clientxy)
 
 
 ### jQuery UI
 - [jQuery UI 下拉式選單](http://jsfiddle.net/RobinvdA/wQ8YA/34/)
+
+### 範例程式碼
+- [點選後, 取得滑鼠位置](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_event_mouse_clientxy)
+- [持續追蹤滑鼠在Canvas上的位置](http://www.w3school.com.cn/tiy/t.asp?f=html5_canvas_coordinates)
+
+- http://www.dummies.com/web-design-development/site-development/how-to-include-images-on-your-web-page-with-html5-canvas/
+---
