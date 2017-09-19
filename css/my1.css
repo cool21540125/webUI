@@ -20,9 +20,9 @@
     padding: 5px;
 }
 
-canvas#factoryArea {
-    width: 1500px;
-    height: 1200p;
+div#factoryArea {
+    width: 1000px;
+    height: 600px;
     border: 1px solid gray;
     background-color: greenyellow;
 }

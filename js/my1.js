@@ -5,6 +5,7 @@ function changeImgReview() {
 
 
 function addMachine() {
+    var size = 50;
     var factoryArea = document.getElementById('factoryArea'); // 廠區 Canvas
     var machineImage = document.getElementById('machinePrototype'); // 機器型錄樣本
     var newArea; // 新的設備空間
@@ -32,14 +33,22 @@ function addMachine() {
         function assignNewMachineArea() { // B2. 配置設備空間到廠區
             factoryArea.appendChild(newArea);
             var newMachineArea = document.getElementById(newArea.id);
-
-            var factoryAreaCtx = factoryArea.getContext('2d');
-            factoryAreaCtx.globalCompositeOperation = 'source-over'; // @@
-            factoryAreaCtx.drawImage(newMachineArea, 0, 0, 30, 30);
         }
 
-        newMachineAreaProperty(30, 30); // b1. 設備空間屬性設定
+        function machineAreaDraggable() {
+            console.log(areaID);
+            var iid = '#' + areaID;
+            $(iid).draggable();
+
+            $(iid).draggable({
+                containment: "parent"
+            });
+        }
+
+        newMachineAreaProperty(size, size); // b1. 設備空間屬性設定
         assignNewMachineArea(); // b2. 配置設備空間到廠區
+        machineAreaDraggable(); //b3. 設備空間可以移動
+
     }
 
 
@@ -66,8 +75,7 @@ function addMachine() {
             newArea.appendChild(newMachine);
 
             var newAreaCtx = newArea.getContext('2d');
-            newAreaCtx.globalCompositeOperation = 'source-over'; // @@
-            newAreaCtx.drawImage(newMachine, 0, 0, 30, 30);
+            newAreaCtx.drawImage(newMachine, 0, 0, size, size);
         }
 
         machinePrototype(30, 30); // b1. 機器屬性設定

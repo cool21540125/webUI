@@ -1,0 +1,64 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    /* background-color: #dddddd; */
+}
+
+header,
+footer {
+    /* 頭尾 */
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+
+section,
+aside {
+    /* 中間部分 */
+    float: left;
+    height: 550px;
+    margin: 4px;
+    padding: 4px;
+    border: 1px solid black;
+}
+
+header {
+    /* 頂層 */
+    padding: 30px;
+}
+
+nav {
+    /* 導覽列 */
+    background-color: #dddddd;
+    text-align: center;
+    display: "none";
+}
+
+section#left {
+    /* 左側 - 功能列表 */
+    width: 15%;
+    background-color: #eeeeee;
+}
+
+section#main {
+    /* 主要部分 - 廠區 */
+    width: 60%;
+}
+
+aside {
+    /* 右側 */
+    width: 10%;
+}
+
+footer {
+    /* 底部 */
+    clear: left;
+    padding: 10px;
+}
+
+p,
+h1,
+h2,
+h3 {
+    text-align: center;
+}

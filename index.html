@@ -1,62 +1,64 @@
-<!doctype html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Factory machine</title>
+    <!-- <link rel="stylesheet" href="js/jquery-u。i-1.12.1/jquery-ui.css"> -->
 
-    <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="css/my.css">
+    <link rel="stylesheet" type="text/css" href="css/frameWork.css">
+    <link rel="stylesheet" type="text/css" href="css/my2.css">
 
+
+    <script src="js/my2.js"></script>
+    <script src="js/drag.js"></script>
     <script src="js/jquery-1.12.1.js"></script>
     <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
-    <script src="js/my.js"></script>
-    <!-- <script src="js/canvasDraggable.js"></script>  -->
-    <!-- <script src="js/dragCopy.js"></script> -->
 </head>
 
 <body>
-
-    <div class="container"></div>
     <header>
-        <!-- Top Side -->
-        <h2>Factory</h2>
+        <!-- ●●●頂部●●● -->
+        <h1>Factory</h1>
     </header>
 
-
-    <nav>
-        <!-- Left Side -->
+    <section id="left">
+        <!-- ●●●左側●●● -->
+        <img id="machinePrototype" src="img/001.jpg" border="1px" alt="" /><br /><br />
 
         <!-- 清單 -->
-        <select id="selectPrototype" onchange="changeImgReview();">
-            <option value="001.jpg">Factory</option>
-            <option value="002.jpg">Machine</option>
-            <option value="003.jpg">Monitor</option>
-        </select>
+        <select id="selectedMachine" name="selectedMachine" onchange="changeImgReview();">
+                    <option value="001.jpg">Factory</option>
+                    <option value="002.jpg">Machine</option>
+                    <option value="003.jpg">Monitor</option>
+                    <option value="004.jpg">Machine</option>
+                </select>
 
         <!-- 點選後新增 -->
-        <button id="btnAddNew" onclick="addMachine();">Add new...</button>
+        <input type="button" id="btnAddNew" value="購買設備"></input>
+        <br /><br />
+        <hr />
         <br />
-        <!-- 原型圖 -->
-        <div id="divPrototype">
-            Prototype:
-            <img id="imgPrototype" src="img/001.jpg" border="0px" alt="" />
-        </div>
-    </nav>
 
 
-    <article>
-        <!-- Right Side Canvas 可把圖片拉進來、並且拉出去(移除)-->
-        <div="FactoryArea" style="overflow:hidden"></canvas>
-                <canvas id="FactoryArea0">
-                </canvas>
-    </div>
-    </div>
+        <!-- 剛採購的設備 -->
+        <div id="newMachineArea" style="border: 5px dashed yellow"></div>
+    </section>
+
+
+    <section id="main">
+        <!-- ●●●中間●●● -->
+        <h2>廠房平面圖</h2>
+        <div id="factoryArea"></div>
+        <!-- <img src="img/001.jpg" width="30px" height="30px" ondrop="drop(event)" ondragover="allowDrop(event)" /> -->
+    </section>
+
+    <aside>
+        <!-- ●●●右側●●● -->
+    </aside>
 
 
     <footer>
-        <!-- Foot Note -->
-        start from 2017/09/12...
+        <!-- ●●●底部●●● -->
+        <h5>&copy; 2017/09/12 BalaBala...</h5>
+
     </footer>
 </body>
 

@@ -4,8 +4,42 @@ function changeImgReview() {
 }
 
 
-function addMachine() {
-    var factoryArea = document.getElementById('factoryArea'); // 廠區 Canvas
+function init() { // Initialization
+
+    var factoryArea = document.getElementById('factoryArea');
+
+    // 增加「購置設備」的事件聆聽 -> buyMachine()
+    document.getElementById('btnAddNew').addEventListener('click', buyMachine, false);
+
+    // 初始廠區規劃135個設備區域
+    initFactoryArea(135); //A1. 增加x個div
+
+    // f
+    function initFactoryArea(x) { //a1. 增加div
+        var i = 0;
+        for (var t = 0; t < x; t++) {
+            var newDiv = document.createElement('div');
+
+            newDiv.className = 'machineArea';
+            newDiv.id = newDiv.className + i++;
+            newDiv.setAttribute('ondrop', "drop(event)");
+            newDiv.setAttribute('ondragover', "allowDrop(event)");
+            newDiv.style.width = 50;
+            newDiv.style.height = 50;
+            newDiv.style.border = '1px dotted gray';
+            // console.log(newDiv);
+
+            factoryArea.appendChild(newDiv);
+        }
+    }
+}
+
+
+function buyMachine() {
+    // console.log('hi');
+
+    var size = 50;
+    var factoryArea = document.getElementById('newMachineArea'); // 設備暫存區
     var machineImage = document.getElementById('machinePrototype'); // 機器型錄樣本
     var newArea; // 新的設備空間
     var areaID; // 設備空間編號
@@ -13,15 +47,18 @@ function addMachine() {
     var machineID; // 新設備編號
 
 
-
     function assignFactoryArea2MachineArea() { // A1. 設備空間劃分
         function newMachineAreaProperty(h, w) { // B1. 設備空間屬性設定
             newArea = document.createElement('canvas');
-            newArea.className = 'machineArea';
+            newArea.className = 'addedMachine';
             newArea.id = getAreaID(newArea.className);
             newArea.height = h;
             newArea.width = w;
+            newArea.setAttribute('draggable', 'true');
+            newArea.setAttribute('ondragstart', 'drag(event)');
             areaID = newArea.id;
+
+            // console.log(newArea);
 
             function getAreaID(areaClassName) { // 取得最新的設備空間id
                 var allMachineAreas = document.getElementsByClassName(areaClassName);
@@ -32,13 +69,9 @@ function addMachine() {
         function assignNewMachineArea() { // B2. 配置設備空間到廠區
             factoryArea.appendChild(newArea);
             var newMachineArea = document.getElementById(newArea.id);
-
-            var factoryAreaCtx = factoryArea.getContext('2d');
-            factoryAreaCtx.globalCompositeOperation = 'source-over'; // @@
-            factoryAreaCtx.drawImage(newMachineArea, 0, 0, 30, 30);
         }
 
-        newMachineAreaProperty(30, 30); // b1. 設備空間屬性設定
+        newMachineAreaProperty(size, size); // b1. 設備空間屬性設定
         assignNewMachineArea(); // b2. 配置設備空間到廠區
     }
 
@@ -66,8 +99,7 @@ function addMachine() {
             newArea.appendChild(newMachine);
 
             var newAreaCtx = newArea.getContext('2d');
-            newAreaCtx.globalCompositeOperation = 'source-over'; // @@
-            newAreaCtx.drawImage(newMachine, 0, 0, 30, 30);
+            newAreaCtx.drawImage(newMachine, 0, 0, size, size);
         }
 
         machinePrototype(30, 30); // b1. 機器屬性設定
@@ -76,9 +108,10 @@ function addMachine() {
 
     assignFactoryArea2MachineArea(); // a1. 設備空間劃分
     installMachine() // a2. 安置機台
+
 }
 
 
+
 // 就緒後, 啟動
-var c0 = document.getElementById('factoryArea');
-c0.addEventListener('click', addMachine, false);
+window.addEventListener('load', init, false);

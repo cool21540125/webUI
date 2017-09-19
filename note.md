@@ -26,15 +26,21 @@
 
 ### 互動式Canvas
 - [A Gentle Introduction to Making HTML5 Canvas Interactive](https://simonsarris.com/making-html5-canvas-useful/)
--[物件double click](https://simonsarris.com/making-html5-canvas-useful/)
+- [物件double click](https://simonsarris.com/making-html5-canvas-useful/)
 
 
 ### jQuery UI
 - [jQuery UI 下拉式選單](http://jsfiddle.net/RobinvdA/wQ8YA/34/)
 
+### CSS 版面配置
+- [CSS版面配置](http://zh-tw.learnlayout.com/position.html)
+
 ### 範例程式碼
 - [點選後, 取得滑鼠位置](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_event_mouse_clientxy)
 - [持續追蹤滑鼠在Canvas上的位置](http://www.w3school.com.cn/tiy/t.asp?f=html5_canvas_coordinates)
-
-- http://www.dummies.com/web-design-development/site-development/how-to-include-images-on-your-web-page-with-html5-canvas/
+- [可以上傳圖片](https://disp.cc/b/11-8uGt)
+- [eventListener的callback方法傳參數](http://www.jstips.co/zh_tw/javascript/passing-arguments-to-callback-functions/)
+- [Canvas畫多圖](http://www.dummies.com/web-design-development/site-development/how-to-include-images-on-your-web-page-with-html5-canvas/)
 ---
+
+
