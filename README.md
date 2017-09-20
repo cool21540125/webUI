@@ -2,9 +2,11 @@
 
 [目前進度](./index.html)
 
-[概念圖示](./problem1.jpg)
-
 ## 概念示意圖的基本定義及想法
+![如果看到這句話, 代表圖片不見了, 請自行開啟Illustration.jpg](./Illustration.jpg)
+
+
+
 <font color="yellow">廠區(div)</font>, 裏頭會有許多的<font color="yellow">設備空間(canvas)</font>, 設備空間再畫上<font color="yellow">設備圖片(image)</font> <br />
 目前使用的方式, 是新增canvas, 再將裡面充填Image, 而非直接插入圖片(因為廠房產線上的設備未必直直地排好, 可能會有轉角度的問題, canvas操作這部分印象中較為容易.) <br />
 Note. canvas本身是一個看不到的畫布, 使用canvas.getContext('2d')可以取得<font color="yellow">畫筆ctx</font>, 再使用ctx.drawImage(), 來將圖片畫到畫布上面

@@ -1,28 +1,31 @@
-/* 廠區Canvas */
-
-#FactoryArea {
-    /* background-color: #0b0; */
-    float: left;
-    width: 800px;
-    height: 400px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #000;
-}
-
-
-/* 機器原型 */
-
 #machinePrototype {
+    /* 設備原型圖 */
     width: 180px;
     height: 180px;
-    border: 1px solid rgb(0, 255, 0);
-    padding: 5px;
+    border: 1px dashed rgb(0, 255, 0);
+    padding: 10px;
 }
 
-canvas#factoryArea {
-    width: 1500px;
-    height: 1200p;
+div#factoryArea {
+    /* 廠區 */
+    padding: 10px;
+    margin: 10px;
+    width: 800px;
+    height: 480px;
     border: 1px solid gray;
-    background-color: greenyellow;
+    background-color: #5B8D0A;
+}
+
+div.machineArea {
+    /* 廠區的設備放置區 */
+    border: 1px dotted gray;
+    float: left;
+}
+
+div#newMachineArea {
+    /* 新購置設備的暫存區 */
+    clear: both;
+    border: 1px dashed red;
+    /* height: 60px; */
+    /* width: 60px; */
 }
