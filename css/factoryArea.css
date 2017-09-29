@@ -1,0 +1,40 @@
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+div { /*  */
+    /* border: solid black; */
+    border: 1px solid black;
+    margin: 10px;
+}
+
+div#note { /* 資訊 */
+    width: 300px;
+    height: 100px;
+}
+
+div#dispose { /* 報廢區 */
+    width: 200px;
+    height: 200px;
+}
+
+div#factoryArea { /* 廠區 */
+    width: 600px;
+    height: 400px;
+}
+
+.machine { /* 設備 */
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    border: 8px solid red;
+    background: white;
+    height: 100px;
+    width: 100px;
+}
+
+.machine.ui-draggable-dragging {    /* jQuery UI自身所帶屬性, 拖曳時, 改變背景顏色 */
+    background: lightpink;
+}

@@ -24,7 +24,7 @@ aside {
 
 header {
     /* 頂層 */
-    padding: 30px;
+    padding: 15px;
 }
 
 nav {
@@ -42,7 +42,7 @@ section#left {
 
 section#main {
     /* 主要部分 - 廠區 */
-    width: 60%;
+    width: 65%;
 }
 
 aside {

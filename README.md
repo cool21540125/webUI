@@ -3,7 +3,7 @@
 [目前進度](./index.html)
 
 ## 概念示意圖的基本定義及想法
-![如果看到這句話, 代表圖片不見了, 請自行開啟Illustration.jpg](./Illustration.jpg)
+![如果看到這句話, 代表圖片不見了, 請自行開啟Illustration.jpg](./img/Illustration.jpg)
 
 
 

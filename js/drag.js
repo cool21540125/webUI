@@ -4,6 +4,8 @@ https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop2
 
 */
 
+
+
 function allowDrop(ev) {
     ev.preventDefault();
 }

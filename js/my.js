@@ -6,13 +6,14 @@ function changeImgReview() {
 
 function init() { // Initialization
 
-    var factoryArea = document.getElementById('factoryArea');
+    // var factoryArea = document.getElementById('factoryArea');
+    var $factoryArea = $('#factoryArea');
 
     // 增加「購置設備」的事件聆聽 -> buyMachine()
-    document.getElementById('btnAddNew').addEventListener('click', buyMachine, false);
+    $('#btnAddNew').click(buyMachine);
+    // document.getElementById('btnAddNew').addEventListener('click', buyMachine, false);
 
-    // 初始廠區規劃135個設備區域
-    initFactoryArea(135); //A1. 增加x個div
+    initFactoryArea(120);
 
     // f
     function initFactoryArea(x) { //a1. 增加div
@@ -29,7 +30,8 @@ function init() { // Initialization
             newDiv.style.border = '1px dotted gray';
             // console.log(newDiv);
 
-            factoryArea.appendChild(newDiv);
+            $factoryArea.append(newDiv);
+
         }
     }
 }
