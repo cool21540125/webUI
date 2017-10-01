@@ -5,5 +5,9 @@ $(function() {
         return false;
     });
 
+    $('factoryArea').on('mousedown', function(ev) {
+        var mouse = factoryState;
+    });
+
 });
 

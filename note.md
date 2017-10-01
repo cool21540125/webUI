@@ -41,6 +41,8 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [儲存webUI text物件內容 -> fs](http://html5-demos.appspot.com/static/a.download.html)
 - [儲存webUI JSON物件 -> fs](http://jsfiddle.net/RZBbY/10/)
 - [jQuery 可移動、可縮放](http://viralpatel.net/blogs/jquery-resizable-draggable-resize-drag-tutorial-example/)
+- [draggable + resizable](http://jsfiddle.net/lotusgodkk/8VY52/250/)
+
 
 ## AJAX
 - [AJAX+jQuery+PHP](http://viralpatel.net/blogs/jquery-ajax-tutorial-example-ajax-jquery-development/)

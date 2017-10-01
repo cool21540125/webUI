@@ -30,7 +30,7 @@ $(function() {      // 機器設備可以拖拉
         
         document.getElementById('note').innerHTML = ('x: ' + xi + ', y: ' + yi);
         // $('#note').text = ('x: ' + xi + ', y: ' + yi);  // 為何不行?
-        console.log('x: ' + xi + ', y: ' + yi);
+        // console.log('x: ' + xi + ', y: ' + yi);
     }
 })
 
