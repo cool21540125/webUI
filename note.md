@@ -55,6 +55,7 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [(中文)拖動](http://www.runoob.com/jqueryui/example-draggable.html)
 - [可拖動、可排序、限制範圍](http://www.pureexample.com/tw/jquery-ui/draggable-options-connect-to-sortable.html)
 - [Droppable jQuery官網](http://jqueryui.com/droppable/#default)
+- [新增資料by前端](http://jsfiddle.net/nkaq816f/)
 
 ---
 Start from 2017/09/12, Tony
