@@ -61,7 +61,9 @@ function PlantArea(machine) {
 
 
     machine.on('select', function(ev) {
-
+        console.log('select')
+        ev.preventDefault();
+        return false;
     });
     // machine.addEventListener('selectstart', function (ev) { // preventDefault()
     //     ev.preventDefault();
@@ -69,6 +71,31 @@ function PlantArea(machine) {
     // }, false);
 
 
+    machine.on('mousedown', function(ev) {
+
+        // 取消所有 'selected' 屬性
+        $('#factoryArea').children().each(function() {
+            this.classList.remove('selected');
+            // console.log(this);
+        })
+
+        if (ev.target != $('#factoryArea')[0]) {
+            if (!ev.target.classList.contains('selected')) {
+                ev.target.classList.add('selected');
+                this.selection = true;
+            }
+
+            console.log(ev.target);
+
+        }
+    })
+
+    machine.on('mouseup', function(ev) {
+        // console.log('mouseup');
+    });
+
+
+    
 
     // machine.addEventListener('mousedown', function (ev) { // 
     //     // var mouse = myPlantArea.getMouse(ev);
@@ -109,6 +136,11 @@ function PlantArea(machine) {
 
     // }, true);
 
+    machine.one('dblclick', function(ev) {
+        // console.log('dblclick');
+        ev.preventDefault();
+    })
+
 
     // machine.addEventListener('mouseup', function (ev) {
     //     myPlantArea.dragging = false;
@@ -117,34 +149,16 @@ function PlantArea(machine) {
 
 
     machine.on('mousemove', function(ev) {
-        console.log(ev.target);
+        if (myPlantArea.dragging) {     // record (X, Y) when mousedown + mousemove
+            var mouse = myPlantArea.getMouse(ev);
+            
+            myPlantArea.selection.x = mouse.x - myPlantArea.dragoffx;
+            myPlantArea.selection.y = mouse.y - myPlantArea.dragoffy;
+            myPlantArea.valid = false; // Something's dragging so we must redraw
+            console.log(ev.target);
+        }
+        
     });
-    // machine.addEventListener('mousemove', function (ev) {
-    //     if (myPlantArea.dragging) {
-    //         var mouse = myPlantArea.getMouse(ev);
-    //         // We don't want to drag the object by its top-left corner, we want to drag it
-    //         // from where we clicked. Thats why we saved the offset and use it here
-    //         myPlantArea.selection.x = mouse.x - myPlantArea.dragoffx;
-    //         myPlantArea.selection.y = mouse.y - myPlantArea.dragoffy;
-    //         myPlantArea.valid = false; // Something's dragging so we must redraw
-    //     }
-    // }, true);
-
-
-
-
-
-
-
-
-
-
-
-    // machine.addEventListener('click', function (ev) {
-    //     console.log('test');
-    // }, true);
-
-
 
     // // **** Options! ****
     // this.selectionColor = '#CC0000';
@@ -169,59 +183,52 @@ PlantArea.prototype.addMachine = function (machine) {
 
 
 
-PlantArea.prototype.clear = function () {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-}
+// PlantArea.prototype.clear = function () {
+//     this.ctx.clearRect(0, 0, this.width, this.height);
+// }
 
 
 
-// While draw is called as often as the INTERVAL variable demands,
-// It only ever does something if the machine gets invalidated by our code
-PlantArea.prototype.draw = function () {
-    // if our state is invalid, redraw and validate!
-    if (!this.valid) {
-        var ctx = this.ctx;
-        var Machines = this.Machines;
-        this.clear();
+// 重畫canvas
+// PlantArea.prototype.draw = function () {
+//     if (!this.valid) {
+//         var ctx = this.ctx;
+//         var Machines = this.Machines;
+//         this.clear();
 
-        // ** Add stuff you want drawn in the background all the time here **
 
-        // draw all Machines
-        var l = Machines.length;
-        for (var i = 0; i < l; i++) {
-            var Machine = Machines[i];
-            // We can skip the drawing of elements that have moved off the screen:
-            if (Machine.x > this.width || Machine.y > this.height ||
-                Machine.x + Machine.w < 0 || Machine.y + Machine.h < 0) continue;
-            Machines[i].draw(ctx);
-        }
+//         // 畫所有機器到廠區
+//         var l = Machines.length;
+//         for (var i = 0; i < l; i++) {
+//             var Machine = Machines[i];
+//             // 廠區外機器, 免重畫
+//             if (Machine.x > this.width || Machine.y > this.height ||
+//                 Machine.x + Machine.w < 0 || Machine.y + Machine.h < 0) continue;
+//             Machines[i].draw(ctx);
+//         }
 
-        // draw selection
-        // right now this is just a stroke along the edge of the selected Machine
-        if (this.selection != null) {
-            ctx.strokeStyle = this.selectionColor;
-            ctx.lineWidth = this.selectionWidth;
-            var mySel = this.selection;
-            ctx.strokeRect(mySel.x, mySel.y, mySel.w, mySel.h);
-        }
+//         // 設備邊緣
+//         if (this.selection != null) {
+//             ctx.strokeStyle = this.selectionColor;
+//             ctx.lineWidth = this.selectionWidth;
+//             var mySel = this.selection;
+//             ctx.strokeRect(mySel.x, mySel.y, mySel.w, mySel.h);
+//         }
 
-        // ** Add stuff you want drawn on top all the time here **
-
-        this.valid = true;
-    }
-}
+//         this.valid = true;
+//     }
+// }
 
 
 
-// Creates an object with x and y defined, set to the mouse position relative to the state's machine
-// If you wanna be super-correct this can be tricky, we have to worry about padding and borders
+// mouse position relative to the state's machine
 PlantArea.prototype.getMouse = function (ev) {
     var element = this.machine,
         offsetX = 0,
         offsetY = 0,
         mx, my;
 
-    // Compute the total offset
+    // total offset
     if (element.offsetParent !== undefined) {
         do {
             offsetX += element.offsetLeft;
@@ -229,49 +236,22 @@ PlantArea.prototype.getMouse = function (ev) {
         } while ((element == element.offsetParent));
     }
 
-    // Add padding and border style widths to offset
-    // Also add the <html> offsets in case there's a position:fixed bar
+    // Add padding, border style widths to offset, position:fixed bar to offset
     offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
     offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
     mx = ev.pageX - offsetX;
     my = ev.pageY - offsetY;
 
-    // We return a simple javascript object (a hash) with x and y defined
-    return {
-        x: mx,
-        y: my
-    };
+    return { x: mx, y: my };
 }
 
 
 
-// If you dont want to use <body onLoad='init()'>
-// You could uncomment this init() reference and place the script reference inside the body tag
-//init();
-
-function init() {
-    // var area = document.getElementById('factoryArea');
+$(document).ready(function() {
     var area = $('#factoryArea');
     var s = new PlantArea(area);
 
     s.addMachine(new MachineModel("1.jpg"));
     s.addMachine(new MachineModel("2.jpg"));
-    // s.addMachine(new Machine(40, 40, 50, 50)); // The default is gray
-    // s.addMachine(new Machine(60, 140, 40, 60, 'lightskyblue'));
-    // // Lets make some partially transparent
-    // s.addMachine(new Machine(80, 150, 60, 30, 'rgba(127, 255, 212, .5)'));
-
-}
-
-
-window.addEventListener('load', init, false);
-
-// $(function () {
-//     $('#saveOut').click(function () {
-//         var qq = document.getElementById('factoryArea')
-//         console.log(qq);
-//     });
-// });
-
-
+})

@@ -5,6 +5,7 @@
 - [W3C](https://www.w3schools.com/html/tryit.asp?filename=tryhtml_default)
 - [jsfiddle.net](http://jsfiddle.net/vrUgs/2/)
 - [RUNOOB.COM](http://www.runoob.com/try/try.php?filename=jqueryui-example-draggable)
+- [CodePen](https://codepen.io/pen/)
 ---
 
 ```
@@ -44,6 +45,16 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [draggable + resizable](http://jsfiddle.net/lotusgodkk/8VY52/250/)
 
 
+## storage
+- [Storing Objects in HTML5 localStorage](https://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage?rq=1)
+- [Storage application](http://ivanmorgillo.com/webnotes/)
+- [HTML API](https://stackoverflow.com/questions/2845603/import-export-html5-localstorage-data)
+- [javaScript匯出txt](http://tsangprogramlearning.blogspot.tw/2015/01/javascripttxt.html)
+
+
+
+
+
 ## AJAX
 - [AJAX+jQuery+PHP](http://viralpatel.net/blogs/jquery-ajax-tutorial-example-ajax-jquery-development/)
 
@@ -56,6 +67,7 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [可拖動、可排序、限制範圍](http://www.pureexample.com/tw/jquery-ui/draggable-options-connect-to-sortable.html)
 - [Droppable jQuery官網](http://jqueryui.com/droppable/#default)
 - [新增資料by前端](http://jsfiddle.net/nkaq816f/)
+
 
 ---
 Start from 2017/09/12, Tony

@@ -9,6 +9,22 @@ $(function() {      // 機器設備可以拖拉
         stop: handleDragStop
     })
 
+    // $(".machine").resizable({
+    //     animate: true,
+    //     helper: "helper"
+    // });
+
+    // $(".ui-wrapper").draggable({
+    //     grid: [10, 10],         // 拖動的時候每次移動特定距離
+    //     cursor: 'pointer',
+    //     containment: "parent",
+    //     stop: handleDragStop
+    // })
+
+
+
+    // $('.machine').resizable();
+
     function handleDragStop(ev, ui) {   // 3. 拖曳停止時, 回傳物件座標
         var xi = parseInt(ui.offset.left);
         var yi = parseInt(ui.offset.top);
