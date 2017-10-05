@@ -27,6 +27,8 @@ function factoryState(machine) {    // 廠區Layout建構式
         return false;
     }, false);
 
+    
+
 
     machine.on('mousedown', function(ev) {  // 點選「場區or設備」 的啟動事件
         var mouse = factoryLayout.getMouse(ev);

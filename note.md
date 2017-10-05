@@ -43,7 +43,7 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [儲存webUI JSON物件 -> fs](http://jsfiddle.net/RZBbY/10/)
 - [jQuery 可移動、可縮放](http://viralpatel.net/blogs/jquery-resizable-draggable-resize-drag-tutorial-example/)
 - [draggable + resizable](http://jsfiddle.net/lotusgodkk/8VY52/250/)
-
+- [JavaScript談物件實作](https://stackoverflow.com/questions/1595611/how-to-properly-create-a-custom-object-in-javascript)
 
 ## storage
 - [Storing Objects in HTML5 localStorage](https://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage?rq=1)

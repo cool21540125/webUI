@@ -1,9 +1,9 @@
 // Machine Constructor
-// function MachineModel(fillImg, x, y, w, h) {
-function MachineModel(pic) {
+function MachineModel(pic, width, height) {
     this.img = "img/" + pic;
-    this.class = "machine"
-    
+    this.class = "machine";
+    this.width = width;
+    this.height = height;
 }
 
 
@@ -42,10 +42,6 @@ function PlantArea(machine) {
     this.htmlTop = html.offsetTop; // 0
     this.htmlLeft = html.offsetLeft; // 0
 
-
-
-    // **** Keep track of state! ****
-
     this.valid = false; // redraw when drag
     this.machines = []; // all machines
     this.dragging = false; // track co-ordinate flag
@@ -60,25 +56,25 @@ function PlantArea(machine) {
     var myPlantArea = this; // PlantArea
 
 
+
     machine.on('select', function(ev) {
         console.log('select')
         ev.preventDefault();
         return false;
     });
-    // machine.addEventListener('selectstart', function (ev) { // preventDefault()
-    //     ev.preventDefault();
-    //     return false;
-    // }, false);
+
 
 
     machine.on('mousedown', function(ev) {
 
+        // console.log(ev.target);
         // 取消所有 'selected' 屬性
         $('#factoryArea').children().each(function() {
             this.classList.remove('selected');
             // console.log(this);
         })
 
+        // 在廠區做點選的時候, 並非點到廠區(就是點到機器)
         if (ev.target != $('#factoryArea')[0]) {
             if (!ev.target.classList.contains('selected')) {
                 ev.target.classList.add('selected');
@@ -86,16 +82,42 @@ function PlantArea(machine) {
             }
 
             console.log(ev.target);
-
         }
     })
+
+
 
     machine.on('mouseup', function(ev) {
         // console.log('mouseup');
     });
 
 
-    
+
+
+    machine.one('dblclick', function(ev) {
+        // Add new machine when double click
+        // console.log(ev.target);
+        // var mouse = myPlantArea.getMouse(ev);
+
+        console.log('(' + ev.clientX + ', ' + ev.clientY + ')');
+        // console.log();
+    })
+
+
+
+    machine.on('mousemove', function(ev) {
+        if (myPlantArea.dragging) {     // record (X, Y) when mousedown + mousemove
+            var mouse = myPlantArea.getMouse(ev);
+            
+            myPlantArea.selection.x = mouse.x - myPlantArea.dragoffx;
+            myPlantArea.selection.y = mouse.y - myPlantArea.dragoffy;
+            myPlantArea.valid = false; // Something's dragging so we must redraw
+            console.log(ev.target);
+        }
+        
+    });
+
+
 
     // machine.addEventListener('mousedown', function (ev) { // 
     //     // var mouse = myPlantArea.getMouse(ev);
@@ -126,39 +148,12 @@ function PlantArea(machine) {
 
 
 
-    // double click for making new machines
-    // machine.addEventListener('dblclick', function (ev) {
-    //     // var mouse = myPlantArea.getMouse(ev);
-    //     // myPlantArea.addMachine(new MachineModel(mouse.x - 10, mouse.y - 10, 20, 20, 'rgba(0,255,0,.6)'));
-    //     var area = document.getElementById('factoryArea');
-    //     var s = new PlantArea(area);
-    //     s.addMachine(new MachineModel('1.jpg'));
-
-    // }, true);
-
-    machine.one('dblclick', function(ev) {
-        // console.log('dblclick');
-        ev.preventDefault();
-    })
-
-
     // machine.addEventListener('mouseup', function (ev) {
     //     myPlantArea.dragging = false;
     // }, true);
 
 
 
-    machine.on('mousemove', function(ev) {
-        if (myPlantArea.dragging) {     // record (X, Y) when mousedown + mousemove
-            var mouse = myPlantArea.getMouse(ev);
-            
-            myPlantArea.selection.x = mouse.x - myPlantArea.dragoffx;
-            myPlantArea.selection.y = mouse.y - myPlantArea.dragoffy;
-            myPlantArea.valid = false; // Something's dragging so we must redraw
-            console.log(ev.target);
-        }
-        
-    });
 
     // // **** Options! ****
     // this.selectionColor = '#CC0000';
@@ -222,29 +217,29 @@ PlantArea.prototype.addMachine = function (machine) {
 
 
 // mouse position relative to the state's machine
-PlantArea.prototype.getMouse = function (ev) {
-    var element = this.machine,
-        offsetX = 0,
-        offsetY = 0,
-        mx, my;
+// PlantArea.prototype.getMouse = function (ev) {
+//     var element = this.machine,
+//         offsetX = 0,
+//         offsetY = 0,
+//         mx, my;
 
-    // total offset
-    if (element.offsetParent !== undefined) {
-        do {
-            offsetX += element.offsetLeft;
-            offsetY += element.offsetTop;
-        } while ((element == element.offsetParent));
-    }
+//     // total offset
+//     if (element.offsetParent !== undefined) {
+//         do {
+//             offsetX += element.offsetLeft;
+//             offsetY += element.offsetTop;
+//         } while ((element == element.offsetParent));
+//     }
 
-    // Add padding, border style widths to offset, position:fixed bar to offset
-    offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
-    offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
+//     // Add padding, border style widths to offset, position:fixed bar to offset
+//     offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
+//     offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
-    mx = ev.pageX - offsetX;
-    my = ev.pageY - offsetY;
+//     mx = ev.pageX - offsetX;
+//     my = ev.pageY - offsetY;
 
-    return { x: mx, y: my };
-}
+//     return { x: mx, y: my };
+// }
 
 
 
@@ -254,4 +249,29 @@ $(document).ready(function() {
 
     s.addMachine(new MachineModel("1.jpg"));
     s.addMachine(new MachineModel("2.jpg"));
+    $('#saveOut').on('click', saveOutFactoryStatus);
 })
+
+
+// 狀態儲存
+function saveOutFactoryStatus() {
+
+    var machine1 = $('#factoryArea').children()[0];
+    var machine2 = $('#factoryArea').children()[1];
+    
+    var m1 = new Machine(machine1.height(), machine1.width());
+
+    console.log(m1);
+    
+}
+
+function Machine(height, width, top, left) {
+    this.height = height;
+    this.width = width;
+}
+
+Machine.prototype.toString = function() {
+    return 'Machine size is ( ' + this.height + 'x ' + this.width + ').'
+}
+
+
