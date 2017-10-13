@@ -44,15 +44,18 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [jQuery 可移動、可縮放](http://viralpatel.net/blogs/jquery-resizable-draggable-resize-drag-tutorial-example/)
 - [draggable + resizable](http://jsfiddle.net/lotusgodkk/8VY52/250/)
 - [JavaScript談物件實作](https://stackoverflow.com/questions/1595611/how-to-properly-create-a-custom-object-in-javascript)
+- [JavaScript實作resizable+draggable](http://www.coffeegnome.net/draggable-resizable-without-jqueryui/)
+
 
 ## storage
 - [Storing Objects in HTML5 localStorage](https://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage?rq=1)
 - [Storage application](http://ivanmorgillo.com/webnotes/)
 - [HTML API](https://stackoverflow.com/questions/2845603/import-export-html5-localstorage-data)
 - [javaScript匯出txt](http://tsangprogramlearning.blogspot.tw/2015/01/javascripttxt.html)
-
-
-
+- [FileSaver.js](https://eligrey.com/demos/FileSaver.js/)
+- [Save File with JavaScript](https://codepen.io/davidelrizzo/pen/cxsGb)
+- [儲存及還原html tag by XML](https://jsfiddle.net/93ewka6w/)
+- [How to convert selected HTML to Json?](https://stackoverflow.com/questions/34504050/how-to-convert-selected-html-to-json)
 
 
 ## AJAX
@@ -68,8 +71,31 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [Droppable jQuery官網](http://jqueryui.com/droppable/#default)
 - [新增資料by前端](http://jsfiddle.net/nkaq816f/)
 
+## jQuery UI
+- [Draggable and Resizable without jqueryUI](http://jsfiddle.net/lotusgodkk/8VY52/247/)
+---
+
+# prototype
+每個js物件, 都有2個物件與之關聯
+1. 原型繼承特性
+2. 原型
+
+使用object literal建立的物件都有同一個`原型物件`, 我們用`Object.prototype`來參考這個`原型物件`.
+
+使用`new Object()創建的物件`繼承自`Object.prototype`
+
+ex: 使用 `new Array()建立的物件` 原型為 `Array.prototype`; `new Date()建立的物件` 原型為 `Date.prototype`
+
+而 `Object.prototype`沒有原型物件
+
 
 ---
+
 Start from 2017/09/12, Tony
 
-
+```mermaid
+graph LR
+    A --> B;
+    B --> C;
+    C --> A;
+```

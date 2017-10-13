@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+        img {
+            /* float: left; */
+            height: 30px;
+            width: 30px;
+            /* float: left; */
+        }
+
+        div#plantArea {
+            height: 100px;
+            width: 100px;
+            border: 1px dashed black;
+        }
+
+        div.mm {
+            height: 30px;
+            width: 30px;
+            border: 1px solid black;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="plantArea" class="plantArea" style="height:100px; width:100px; border: '1px solid black';">
+        <img id="m1" class="mm" src="img/001.jpg" />
+        <img id="m2" class="mm" src="img/002.jpg" />
+        <div id="m3" class="mm"></div>
+    </div>
+    <button id="save">Save</button>
+    <button id="restore">Restore</button>
+
+    <script>
+        $(function () {
+            $('#save').on('click', function (ev) {
+                // ev.preventDefault();
+                // var text = $("#m1").height();
+                // var blob = new Blob([text], {   // 要儲存的東西
+                //     "type": "application/json"
+                // });
+                // var a = document.createElement("a");
+
+                // a.download = "test.txt";    // 要儲存的檔名
+                // a.href = URL.createObjectURL(blob);
+                // document.body.appendChild(a);
+                // a.click();
+                // var pp = document.getElementById('plantArea');
+
+                // var plantObject = new Plant();
+                // storeThis(plantObject);
+
+
+                var pp = document.getElementById('plantArea');
+
+                var hh = pp.outerHTML;
+
+                var dd = {
+                    layout: hh
+                };
+
+                var jj = JSON.stringify(dd);
+
+                storeThis(jj)
+            });
+
+            $('#restore').on('click', function (ev) {
+
+                var pp = window.location.pathname;
+                var uu = window.location.href;
+
+
+                // $.get('foo.txt', function(data) {
+                //     console.log(data);
+                // });
+            });
+        });
+
+        // 物件模型
+        function Plant() {
+            var machineObjects = function () {
+                var plant = document.getElementById('plantArea');
+                console.log(plant);
+                console.log(typeof (plant));
+            }
+            this.container = machineObjects();
+        }
+
+
+        // 儲存功能: 存出傳入的物件
+        function storeThis(obj) {
+
+            var savingObject = new Blob([obj], {
+                'type': 'application/json'
+            });
+
+            var a = document.createElement('a');
+            a.download = "plantObject.txt"; // 要儲存的檔名
+            a.href = URL.createObjectURL(savingObject);
+            document.body.appendChild(a);
+            // console.log(savingObject);
+            a.click();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+{"layout":"<div id=\"plantArea\" class=\"plantArea\" style=\"height:100px; width:100px; border: '1px solid black';\">\n        <img id=\"m1\" class=\"mm\" src=\"img/001.jpg\">\n        <img id=\"m2\" class=\"mm\" src=\"img/002.jpg\">\n        <div id=\"m3\" class=\"mm\"></div>\n    </div>"}

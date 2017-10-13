@@ -7,13 +7,11 @@ function MachineModel(pic, width, height) {
 }
 
 
-
 // Draws this MachineModel to a given context
 MachineModel.prototype.draw = function (ctx) {
     ctx.fillStyle = this.fill;
     ctx.fillRect(this.x, this.y, this.w, this.h);
 }
-
 
 
 // Determine if a point is inside the MachineModel's bounds
@@ -25,7 +23,6 @@ MachineModel.prototype.contains = function (mx, my) {
 }
 
 
-
 // PlantArea
 function PlantArea(machine) {
 
@@ -35,8 +32,6 @@ function PlantArea(machine) {
 
     // this.width = machine.style.width; // jQ $('machine').attr('width');
     // this.height = machine.style.height;
-
-
 
     var html = document.body.parentNode;
     this.htmlTop = html.offsetTop; // 0
@@ -54,8 +49,6 @@ function PlantArea(machine) {
     // 啟動事件後, this 指 machine
 
     var myPlantArea = this; // PlantArea
-
-
 
     machine.on('select', function(ev) {
         console.log('select')
@@ -116,52 +109,6 @@ function PlantArea(machine) {
         }
         
     });
-
-
-
-    // machine.addEventListener('mousedown', function (ev) { // 
-    //     // var mouse = myPlantArea.getMouse(ev);
-    //     var mx = ev.clientX;
-    //     var my = ev.clientY;
-    //     var machines = myPlantArea.machines;
-    //     var n = machines.length;
-    //     for (var i = n - 1; i >= 0; i--) {
-    //         if (Machines[i].contains(mx, my)) {
-    //             var mySel = Machines[i];
-
-    //             // move smoothly
-    //             myPlantArea.dragoffx = mx - mySel.x;
-    //             myPlantArea.dragoffy = my - mySel.y;
-    //             myPlantArea.dragging = true;
-    //             myPlantArea.selection = mySel;
-    //             myPlantArea.valid = false;
-    //             return;
-    //         }
-    //     }
-    //     // havent returned means we have failed to select anything.
-    //     // If there was an object selected, we deselect it
-    //     if (myPlantArea.selection) {
-    //         myPlantArea.selection = null;
-    //         myPlantArea.valid = false; // Need to clear the old selection border
-    //     }
-    // }, true);
-
-
-
-    // machine.addEventListener('mouseup', function (ev) {
-    //     myPlantArea.dragging = false;
-    // }, true);
-
-
-
-
-    // // **** Options! ****
-    // this.selectionColor = '#CC0000';
-    // this.selectionWidth = 2;
-    // this.interval = 30;
-    // setInterval(function () {
-    //     myPlantArea.draw();
-    // }, myPlantArea.interval);
 }
 
 
@@ -175,71 +122,6 @@ PlantArea.prototype.addMachine = function (machine) {
     var factoryArea = document.getElementById('factoryArea');
     factoryArea.appendChild(q1);
 }
-
-
-
-// PlantArea.prototype.clear = function () {
-//     this.ctx.clearRect(0, 0, this.width, this.height);
-// }
-
-
-
-// 重畫canvas
-// PlantArea.prototype.draw = function () {
-//     if (!this.valid) {
-//         var ctx = this.ctx;
-//         var Machines = this.Machines;
-//         this.clear();
-
-
-//         // 畫所有機器到廠區
-//         var l = Machines.length;
-//         for (var i = 0; i < l; i++) {
-//             var Machine = Machines[i];
-//             // 廠區外機器, 免重畫
-//             if (Machine.x > this.width || Machine.y > this.height ||
-//                 Machine.x + Machine.w < 0 || Machine.y + Machine.h < 0) continue;
-//             Machines[i].draw(ctx);
-//         }
-
-//         // 設備邊緣
-//         if (this.selection != null) {
-//             ctx.strokeStyle = this.selectionColor;
-//             ctx.lineWidth = this.selectionWidth;
-//             var mySel = this.selection;
-//             ctx.strokeRect(mySel.x, mySel.y, mySel.w, mySel.h);
-//         }
-
-//         this.valid = true;
-//     }
-// }
-
-
-
-// mouse position relative to the state's machine
-// PlantArea.prototype.getMouse = function (ev) {
-//     var element = this.machine,
-//         offsetX = 0,
-//         offsetY = 0,
-//         mx, my;
-
-//     // total offset
-//     if (element.offsetParent !== undefined) {
-//         do {
-//             offsetX += element.offsetLeft;
-//             offsetY += element.offsetTop;
-//         } while ((element == element.offsetParent));
-//     }
-
-//     // Add padding, border style widths to offset, position:fixed bar to offset
-//     offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
-//     offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
-
-//     mx = ev.pageX - offsetX;
-//     my = ev.pageY - offsetY;
-
-//     return { x: mx, y: my };
-// }
 
 
 
@@ -259,16 +141,20 @@ function saveOutFactoryStatus() {
     var machine1 = $('#factoryArea').children()[0];
     var machine2 = $('#factoryArea').children()[1];
     
-    var m1 = new Machine(machine1.height(), machine1.width());
+    var m1 = new Machine(machine1.height, machine1.width);
 
     console.log(m1);
     
 }
 
+
+
 function Machine(height, width, top, left) {
     this.height = height;
     this.width = width;
 }
+
+
 
 Machine.prototype.toString = function() {
     return 'Machine size is ( ' + this.height + 'x ' + this.width + ').'
