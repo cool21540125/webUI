@@ -4,23 +4,26 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="js/jquery.cookie.js" type="text/javascript"></script>
+
     <style>
         img {
             /* float: left; */
-            height: 30px;
-            width: 30px;
+            height: 100px;
+            width: 100px;
             /* float: left; */
         }
 
         div#plantArea {
-            height: 100px;
-            width: 100px;
+            height: 1000px;
+            width: 1000px;
             border: 1px dashed black;
         }
 
         div.mm {
-            height: 30px;
-            width: 30px;
+            height: 100px;
+            width: 100px;
             border: 1px solid black;
         }
     </style>
@@ -29,10 +32,10 @@
 </head>
 
 <body>
-    <div id="plantArea" class="plantArea" style="height:100px; width:100px; border: '1px solid black';">
+    <div id="plantArea" class="plantArea">
         <img id="m1" class="mm" src="img/001.jpg" />
-        <img id="m2" class="mm" src="img/002.jpg" />
-        <div id="m3" class="mm"></div>
+        <!-- <img id="m2" class="mm" src="img/002.jpg" /> -->
+        <!-- <div id="m3" class="mm"></div> -->
     </div>
     <button id="save">Save</button>
     <button id="restore">Restore</button>
@@ -107,6 +110,72 @@
             // console.log(savingObject);
             a.click();
         }
+
+
+        ////////////////////////////
+        $(function () {      // 機器設備可以拖拉
+
+            try {
+                var dm = $('#m1');
+                    // console.log('hi');
+                    // console.log(document.cookie);
+                    // var pos = JSON.parse(document.cookie);
+                    var tt = sessionStorage.getItem('top');
+                    var ll = sessionStorage.getItem('left');
+
+                    dm.css({ top: tt });
+                    dm.css({ left: ll });
+
+                } catch (e) {
+                    console.log('err ' + e);
+                }
+
+            $("#m1").draggable({   // 3. 停止時啟動事件
+                grid: [10, 10],         // 拖動的時候每次移動特定距離
+                cursor: 'pointer',
+                containment: "parent",
+                start: handleDragStart,
+                stop: handleDragStop
+            });
+
+            function handleDragStart(ev, obj) {
+                try {
+                    var style = window.getComputedStyle(ev.target, null);
+                    // console.log(parseInt(style.getPropertyValue("left"), 10));
+                    // console.log(parseInt(style.getPropertyValue("top"), 10));
+
+                    // ev.dataTransfer.setData("text",
+                    // console.log(ev.originalEvent);
+                    // ev.originalEvent.dataTransfer.setData('text',
+                    // (parseInt(style.getPropertyValue("left"), 10) - ev.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - ev.clientY));
+                } catch (err) {
+                    console.log('error');
+                }
+
+            }
+
+            function handleDragStop(ev, obj) {   // 3. 拖曳停止時, 回傳物件座標
+                var xi = parseInt(obj.offset.left);
+                var yi = parseInt(obj.offset.top);
+
+                // @@ https://jsfiddle.net/25fw1sdk/
+                var dm = ev.target;
+                var pos = { left: dm.style.left, top: dm.style.top };
+                // console.log(em);
+
+                // 存到cookie
+                console.log(JSON.stringify(pos));
+
+
+                // $.cookie('left', dm.style.left);
+                // $.cookie('top', dm.style.top);
+                sessionStorage.setItem('left', dm.style.left);
+                sessionStorage.setItem('top', dm.style.top);
+
+                // console.log(JSON.stringify(pos));
+                // console.log(typeof JSON.stringify(pos));
+            }
+        })
     </script>
 </body>
 
