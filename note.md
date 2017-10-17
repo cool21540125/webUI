@@ -56,6 +56,7 @@ https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png
 - [Save File with JavaScript](https://codepen.io/davidelrizzo/pen/cxsGb)
 - [儲存及還原html tag by XML](https://jsfiddle.net/93ewka6w/)
 - [How to convert selected HTML to Json?](https://stackoverflow.com/questions/34504050/how-to-convert-selected-html-to-json)
+- [document.cookie Fiddle example](https://jsfiddle.net/25fw1sdk/)
 
 
 ## AJAX

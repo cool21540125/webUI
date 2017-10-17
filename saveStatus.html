@@ -16,8 +16,8 @@
         }
 
         div#plantArea {
-            height: 1000px;
-            width: 1000px;
+            height: 500px;
+            width: 500px;
             border: 1px dashed black;
         }
 
@@ -34,7 +34,7 @@
 <body>
     <div id="plantArea" class="plantArea">
         <img id="m1" class="mm" src="img/001.jpg" />
-        <!-- <img id="m2" class="mm" src="img/002.jpg" /> -->
+        <img id="m2" class="mm" src="img/002.jpg" />
         <!-- <div id="m3" class="mm"></div> -->
     </div>
     <button id="save">Save</button>
@@ -130,7 +130,7 @@
                     console.log('err ' + e);
                 }
 
-            $("#m1").draggable({   // 3. 停止時啟動事件
+            $(".mm").draggable({   // 3. 停止時啟動事件
                 grid: [10, 10],         // 拖動的時候每次移動特定距離
                 cursor: 'pointer',
                 containment: "parent",
