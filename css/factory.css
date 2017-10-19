@@ -34,6 +34,7 @@
     height: 200px;
     border: 1px solid gray;
     margin: 10px;
+    padding: 0px;
      /*overflow: auto; */
     /*position: fixed; */
 }
@@ -43,6 +44,12 @@
     height: 24px;
     border: 1px solid blue;
     padding: 0px;
+    margin: 0px;
+}
+
+img.machinePhoto {  /* DIO內的圖片 */
+    width: 160px;
+    height: 120px;
     margin: 0px;
 }
 
