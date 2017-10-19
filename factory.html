@@ -9,96 +9,101 @@
 	jquery-ui.css
 -->
 <html lang="">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>Title Page</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.css">
-		<link rel="stylesheet" href="css/demo.css">
-		<link rel="stylesheet" href="css/jquery.mmenu.all.css">
-		<link rel="stylesheet" href="css/factory.css">
-		<!--[if lt IE 9]>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 
-	</head>
-	<body>
-		<!-- 左側選單開始 -->
-		<div class="header">
-			<a href="#menu" data-icon="grid" style="display: none;"><button id="header"></button></a>
-		</div>
-		<div class="page">
-			<nav id="menu">
-				<ul>
-					<li>
-						<a href="#" class="hrefList"> 
-							<div class="form-group">
-								<label for="sel1">機台編號:</label>
-								<select class="form-control" id="sel1">
-									<option style="color: #b6b6b6" disabled selected>請選擇</option>
-								    <option>SMT001</option>
-								    <option disabled>SMT002</option>
-								    <option>SMT003</option>
-								    <option>SMT004</option>
-								</select>
-							</div>
-						</a>
-					</li>
-					<li>
-						<a href="" class="hrefList">
-							<label>圖標選擇:</label>
-							<div class="checkbox">
-							    <label onclick="onChecked(1);" onmouseover="mosIn(1)" onmouseout="mosOut(1)">
-							    	<span class="glyphicon glyphicon-ok choose1" style="color:#F32820;"></span><font class="checkFont1" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;三色燈</font>
-							    </label>
-							</div>
-							<div class="checkbox">
-							    <label onclick="onChecked(2);" onmouseover="mosIn(2)" onmouseout="mosOut(2)">
-							    	<span class="glyphicon glyphicon-ok choose2" style="color:#F32820;"></span><font class="checkFont2" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;溫度</font>
-							    </label>
-							</div>
-							<div class="checkbox">
-							    <label onclick="onChecked(3);" onmouseover="mosIn(3)" onmouseout="mosOut(3)">
-							    	<span class="glyphicon glyphicon-ok choose3" style="color:#F32820;"></span><font class="checkFont3" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;濕度</font>
-							    </label>
-							</div>
-						</a>
-					</li>				
-				</ul>
-			</nav>
-		</div>
-		<!-- 選單結束 -->
-		
-		<!-- 頁面 -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<!-- 廠區 -->
-				<div class="layout col-xs-12 col-sm-9" id="layout">
-					<h2 align="center" id="leftTitle">Factory Layout</h2>
-				</div>
-				<!-- 機台模型 -->
-				<div class="col-xs-12 col-sm-3" id="machineList" ondrop="dropHandler(event)" onclick="updateFile()">
-					<h2 id="rightTitle">Machine</h2>
-					<div id="imgDIV">
-						<img src="images/M-3XG 1.jpg" class="machine" />	
-    				</div>
-				</div>
-				<img src="img/1.jpg" class="test" />
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title>Layout Page</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.css">
+	<link rel="stylesheet" href="css/demo.css">
+	<link rel="stylesheet" href="css/jquery.mmenu.all.css">
+	<link rel="stylesheet" href="css/factory.css">
+
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+	<script src="js/jquery.mmenu.all.js"></script>
+	<script src="js/factory.js"></script>
+</head>
+
+<body>
+	<!-- 左側選單開始 -->
+	<div class="header">
+		<a href="#menu" data-icon="grid" style="display: none;">
+			<button id="header"></button>
+		</a>
+	</div>
+	<div class="page">
+		<nav id="menu">
+			<ul>
+				<li>
+					<a href="#" class="hrefList">
+						<div class="form-group">
+							<label for="sel1">機台編號:</label>
+							<select class="form-control" id="sel1">
+								<option style="color: #b6b6b6" disabled selected>請選擇</option>
+								<option>SMT001</option>
+								<option disabled>SMT002</option>
+								<option>SMT003</option>
+								<option>SMT004</option>
+							</select>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="hrefList">
+						<label>圖標選擇:</label>
+						<div class="checkbox">
+							<label onclick="onChecked(1);" onmouseover="mosIn(1)" onmouseout="mosOut(1)">
+								<span class="glyphicon glyphicon-ok choose1" style="color:#F32820;"></span>
+								<font class="checkFont1" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;三色燈</font>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label onclick="onChecked(2);" onmouseover="mosIn(2)" onmouseout="mosOut(2)">
+								<span class="glyphicon glyphicon-ok choose2" style="color:#F32820;"></span>
+								<font class="checkFont2" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;溫度</font>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label onclick="onChecked(3);" onmouseover="mosIn(3)" onmouseout="mosOut(3)">
+								<span class="glyphicon glyphicon-ok choose3" style="color:#F32820;"></span>
+								<font class="checkFont3" style="font-family: Microsoft JhengHei;font-size: 16px;font-weight: 500;">&emsp;濕度</font>
+							</label>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<!-- 選單結束 -->
+
+	<!-- 頁面 -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!-- 廠區 -->
+			<div class="layout col-xs-12 col-sm-9" id="layout">
+
 			</div>
+			<!-- 機台模型 -->
+			<!-- <div class="col-xs-12 col-sm-3" id="machineList" ondrop="dropHandler(event)" onclick="updateFile()"> -->
+			<div id="machineClassDivList" class="col-xs-12 col-sm-3">
+				<div id="machineClassDiv" class="">
+					<img id="machineClass" class="" src="images/M-3XG 1.jpg" />
+				</div>
+			</div>
+			<button id="saveLayout">Save</button>
+			<button id="loadLayout">Load</button>
+
 		</div>
-		
-		<!-- 隱藏的file按鈕,功能用 -->
-		<input type="file" id="clickimg" />
-		
-		
-		<script src="https://code.jquery.com/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
-		<script src="js/jquery.mmenu.all.js"></script>
-		<script src="js/factory.js"></script>
-	</body>
+	</div>
+
+	<!-- 隱藏的file按鈕,功能用 -->
+	<input type="file" id="uu" />
+
+</body>
+
 </html>

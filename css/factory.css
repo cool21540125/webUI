@@ -35,14 +35,25 @@ div#layout{ /* 場區 */
 	border:5px solid #FF0000;
 
 }
-.machineClass {
+
+div.machineClassDivList { /* DIO模型實體化後的起始位置 */
+
+}
+
+div.machineClassDiv {   /* DIO模型 */
     width: 200px;
     height: 200px;
-    border: 1px solid gray;
-    margin: 10px;
+    border: 1px solid black;
+    padding: 4px;
      /*overflow: auto; */
     /*position: fixed; */
 }
+
+img.machineClass {  /* DIO模型圖表 */
+    width: 190px;
+    height: 190px;
+}
+
 .handler {
     cursor: move;
     background-color: lightblue;

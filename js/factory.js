@@ -8,7 +8,7 @@ $(function () {
 
 	operateDIO(); 										// 2. addEvent: Plant objects draggable + resizable + droppable
 
-	$('#clickimg').on('change', uploadHandler);			// 3. 點選模型, 選擇圖片, 按確定後附加到網頁上供佈置
+	$('#uu').on('change', uploadHandler);			// 3. 點選模型, 選擇圖片, 按確定後附加到網頁上供佈置
 
 
 	// $('handler').css('overflow', 'hidden');
@@ -84,32 +84,6 @@ function restoreLayoutSessionStorage() { // Restore previous layout
 
 
 
-function updateFile() {
-	$("#clickimg").click();
-}
-
-
-
-function uploadHandler() {	// 判斷所選圖片, 符合條件的話附加到網頁上
-	if (this.files[0].type == 'image/jpeg' || 'image/jpg' || 'image/bmp' || 'image/png') {
-		var file = this.files[0];
-		var fr = new FileReader();
-		fr.onload = function () {
-			var img = event.target.result;
-			$('#imgDIV').append('<img src="' + img + '" class="machine" />');
-		}
-		fr.readAsDataURL(file);
-
-	} else {
-		alert("Only allowed: jpeg/jpg/bmp/png");
-	}
-}
-
-
-function AllowDrop(event) {
-	event.preventDefault();
-}
-
 function addMachine(ev) { // Draggable!  圖片src放入layout
 	if (ev != null && imgSrc != "") {
 
@@ -146,11 +120,9 @@ function addMachine(ev) { // Draggable!  圖片src放入layout
 
 
 
-
-
 function operateDIO(ev) {	//draggable + resizable by jQuery UI
 	// 1. DIO draggable + resizable
-	$('.machineClass').draggable({
+	$('.machine').draggable({
 		// handle: '.handler',
 		cursor: 'move',
 		revert: 'invalid',
@@ -177,12 +149,9 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 
 	});
 
-	$('.test').draggable({
-		revert:	'invalid',
-	});
 
 	// 3. DIO model draggable
-	$('.machine').draggable({
+	$('.machineClass').draggable({
 		accept: $('#layout'),
 		start: function() {
 			imgSrc = event.target.src;		// 
@@ -192,36 +161,6 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 	});
 
 	// 4. DIO
-}
-
-
-
-function headerClick() { //叫出選單的function
-	$("#header").click();
-}
-
-function asideSection() { //左側打勾控制開始 , 暫無功能
-	function onChecked(num) {
-		var target = ".choose" + num;
-
-		if ($(target).css("opacity") == 1) {
-			$(target).fadeTo(300, 0);
-		} else {
-			$(target).fadeTo(300, 1);
-		}
-	}
-
-	function mosIn(num) {
-		var target = ".checkFont" + num;
-		$(target).css("font-weight", 900);
-		$(target).css("color", "#FF0000");
-	}
-
-	function mosOut(num) {
-		var target = ".checkFont" + num;
-		$(target).css("font-weight", 500);
-		$(target).css("color", "#000000");
-	}
 }
 
 
@@ -321,35 +260,67 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 }
 
 
-// 允許從資料夾拉(多筆)東西到網頁 (有BUG)
-// function dropHandler(ev) { //ev 為 DragEvent 物件
-// 	ev.preventDefault();
-// 	$(".machine").css("background-color", "white");
-// 	var files = ev.dataTransfer.files; //由DataTransfer物件的files屬性取得檔案物件
 
-// 	for (var i in files) {
-// 		if (files[i].type == 'image/jpeg' || 'image/jpg' || 'image/bmp' || 'image/png') {
-// 			//將圖片在頁面預覽
-// 			var fr = new FileReader();
-// 			fr.onload = openfile;
-// 			fr.readAsDataURL(files[i]);
+// function dragStart(ev) {
+// 	imgSrc = ev.target.src;
+// }
+
+
+// function asideSection() { //左側打勾控制開始 , 暫無功能
+// 	function onChecked(num) {
+// 		var target = ".choose" + num;
+
+// 		if ($(target).css("opacity") == 1) {
+// 			$(target).fadeTo(300, 0);
 // 		} else {
-// 			alert("Only allowed: jpeg/jpg/bmp/png");
+// 			$(target).fadeTo(300, 1);
 // 		}
 // 	}
+
+// 	function mosIn(num) {
+// 		var target = ".checkFont" + num;
+// 		$(target).css("font-weight", 900);
+// 		$(target).css("color", "#FF0000");
+// 	}
+
+// 	function mosOut(num) {
+// 		var target = ".checkFont" + num;
+// 		$(target).css("font-weight", 500);
+// 		$(target).css("color", "#000000");
+// 	}
 // }
-// 
-// 
-// 
-// function openfile(ev) {
-// 	var img = ev.target.result;
-// 	$('#imgDIV').append(
-// 		"<img src='" + img + "' class='machine' draggable='true' ondragstart='dragStart(event)' ondragend='addMachine()'>"
-// 	);
+
+
+
+// function headerClick() { //叫出選單的function
+// 	$("#header").click();
 // }
-//
-//
-//
-function dragStart(ev) {
-	imgSrc = ev.target.src;
+
+
+
+// function AllowDrop(event) {
+// 	event.preventDefault();
+// }
+
+
+
+function updateFile() {
+	$("#uu").click();
+}
+
+
+
+function uploadHandler() {	// 判斷所選圖片, 符合條件的話附加到網頁上
+	if (this.files[0].type == 'image/jpeg' || 'image/jpg' || 'image/bmp' || 'image/png') {
+		var file = this.files[0];
+		var fr = new FileReader();
+		fr.onload = function () {
+			var img = event.target.result;
+			$('#imgDIV').append('<img src="' + img + '" class="machine" />');
+		}
+		fr.readAsDataURL(file);
+
+	} else {
+		alert("Only allowed: jpeg/jpg/bmp/png");
+	}
 }
