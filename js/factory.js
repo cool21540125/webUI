@@ -94,10 +94,10 @@ function uploadHandler() {	// 判斷所選圖片, 符合條件的話附加到網
 	if (this.files[0].type == 'image/jpeg' || 'image/jpg' || 'image/bmp' || 'image/png') {
 		var file = this.files[0];
 		var fr = new FileReader();
-		fr.onload = function (ev) {
-			var img = ev.target.result;
+		fr.onload = function () {
+			var img = event.target.result;
 			$('#imgDIV').append('<img src="' + img + '" class="machine" />');
-		}(event)
+		}
 		fr.readAsDataURL(file);
 
 	} else {
@@ -136,7 +136,7 @@ function addMachine(ev) { // Draggable!  圖片src放入layout
 		// @
 		$(".machineClass").css("position", "absolute");
 		$(".machineClass").on('click', function (ev) {
-
+			$(this).css('zIndex', 2);
 		})
 		operateDIO(ev);
 
@@ -169,14 +169,29 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 	// 2. layout resizable + droppable
 	$("#layout").resizable({
 		stop: layoutSessionStorage,			// store status after resize layout
-	}).droppable();
+	}).droppable({
+		over: function() {
+			ev.preventDefault();
+		},
+		out: addMachine,
 
-	$('#imgDIV').draggable({
+	});
+
+	$('.test').draggable({
+		revert:	'invalid',
+	});
+
+	// 3. DIO model draggable
+	$('.machine').draggable({
+		accept: $('#layout'),
 		start: function() {
-			imgSrc = ev.target.src;			// 
-		},			 
+			imgSrc = event.target.src;		// 
+			console.log('開始移動.machine -> #layout');
+		},
 		stop: addMachine,					// 
 	});
+
+	// 4. DIO
 }
 
 
@@ -251,6 +266,7 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 	}
 
 
+
 	/*
 	@@ 效能不佳: 若已有storage, 再拖動廠區, 則免再判斷是否已有storage
 	
@@ -301,7 +317,7 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 		}(ev, o)
 	}
 	// console.log(JSON.parse(sessionStorage.getItem('layoutStatus')));
-	sessionStorage.setItem('layoutStatus', JSON.stringify(p));
+	// sessionStorage.setItem('layoutStatus', JSON.stringify(p));
 }
 
 
@@ -334,6 +350,6 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 //
 //
 //
-// function dragStart(ev) {
-// 	imgSrc = ev.target.src;
-// }
+function dragStart(ev) {
+	imgSrc = ev.target.src;
+}

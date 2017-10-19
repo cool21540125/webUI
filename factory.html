@@ -74,26 +74,25 @@
 		
 		<!-- 頁面 -->
 		<div class="container">
-
-
 			<!-- row -->
 			<div class="row">
 				<!-- 廠區 -->
-				<div class="col-xs-12 col-sm-9" id="layout" ondrop="addMachine(event)" ondragover="AllowDrop(event)">
+				<div class="layout col-xs-12 col-sm-9" id="layout">
 					<h2 align="center" id="leftTitle">Factory Layout</h2>
 				</div>
-				<!-- 機台 -->
+				<!-- 機台模型 -->
 				<div class="col-xs-12 col-sm-3" id="machineList" ondrop="dropHandler(event)" onclick="updateFile()">
 					<h2 id="rightTitle">Machine</h2>
 					<div id="imgDIV">
-						<img src="images/M-3XG 1.jpg" alt="" class="machine">	
+						<img src="images/M-3XG 1.jpg" class="machine" />	
     				</div>
 				</div>
+				<img src="img/1.jpg" class="test" />
 			</div>
 		</div>
 		
 		<!-- 隱藏的file按鈕,功能用 -->
-		<input type="file" id="clickimg" style="display: none;" ondragstart='dragStart(event)'>
+		<input type="file" id="clickimg" />
 		
 		
 		<script src="https://code.jquery.com/jquery.js"></script>

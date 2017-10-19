@@ -1,3 +1,10 @@
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+
 .machine{
 	width:150px;	
 	height: 150px;
@@ -12,21 +19,20 @@
 	font-family:cursive;
 	font-weight:800;
 }
-#layout{
+div#layout{ /* 場區 */
 	border-radius: 5px;
 	height: 400px;
     border: 5px solid silver;
-    padding: 0px;
     /*overflow: auto*/;
 }
 #machineList{
 	position: relative;
-	left: 1em;
+	left: 16px;
 	background-color: #BDD0CD;
 	border-radius: 5px;
 }
 #innerLayout{
-	border:5px #FF0000;
+	border:5px solid #FF0000;
 
 }
 .machineClass {
@@ -34,7 +40,6 @@
     height: 200px;
     border: 1px solid gray;
     margin: 10px;
-    padding: 0px;
      /*overflow: auto; */
     /*position: fixed; */
 }
@@ -43,22 +48,23 @@
     background-color: lightblue;
     height: 24px;
     border: 1px solid blue;
-    padding: 0px;
-    margin: 0px;
 }
 
 img.machinePhoto {  /* DIO內的圖片 */
     width: 160px;
     height: 120px;
-    margin: 0px;
 }
 
-/* 關閉將左右縮放 */
-.ui-resizable-e  {
+
+.ui-resizable-e  {  /* 關閉將左右縮放 */
     width: 0px;
 }
 
-/* 關閉將上下縮放 */
-.ui-resizable-s {
+
+.ui-resizable-s {   /* 關閉將上下縮放 */
     height: 0px;
+}
+
+input#clickimg {
+    display: none;
 }
