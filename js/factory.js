@@ -8,22 +8,8 @@ $(function () {
 
 	operateDIO(); 										// 2. addEvent: Plant objects draggable + resizable + droppable
 
-	$('#uu').on('change', uploadHandler);			// 3. 點選模型, 選擇圖片, 按確定後附加到網頁上供佈置
 
-
-	// $('handler').css('overflow', 'hidden');
-	// $('.machineClass').css('position', 'absolute');
-	// $('.machineClass').css('overflow', 'auto');
-
-
-	// $('nav#menu').mmenu(); //左方選單
-
-	// $('.hrefList').on('click', function (ev) { // 超連結失效
-	// 	ev.preventDefault();
-	// 	ev.stopPropagation();
-	// })
 });
-
 
 
 function checkID() {	// 判斷要付加上去的element ID
@@ -51,6 +37,7 @@ function restoreLayoutSessionStorage() { // Restore previous layout
 	1. 還原場區大小
 	2. 還原場區物件
 	3. 還原場區物件大小及位置
+	@@BUG: top, left為不正確的top, left, 需搭配offsetTop, clientTop, 等等來計算真實的top, left
 	*/
 
 	var p; // Layout storage
@@ -119,10 +106,39 @@ function addMachine(ev) { // Draggable!  圖片src放入layout
 }
 
 
-
 function operateDIO(ev) {	//draggable + resizable by jQuery UI
-	// 1. DIO draggable + resizable
-	$('.machine').draggable({
+
+	// ### Layout resizable + droppable
+	$("#layout").resizable({
+		stop: layoutSessionStorage,			// store status after resize layout
+	}).droppable({
+		helper: 'clone',
+		grid: [20, 20],
+		drop: function (ev, ui) {
+			// console.log('drag .DIOModel -> #layout: 先觸發#layout droppable(), 再觸發.DIOModel draggable()');
+			if (ui.helper[0].parentNode.id === 'DIOModelList') {
+				// var DIO = $(ui.helper).clone(true).removeClass('DIOModel').addClass('DIO').appendTo('#DIOModel1');
+
+				// ui.helper[0].classList.add('DIO')
+				ui.helper[0].classList = 'DIO ' + ui.helper[0].classList;
+				ui.helper[0].classList.remove("DIOModel");
+				ev.target.appendChild(ui.helper[0]);
+
+				// console.log(ev.offsetX + ', ' + ev.offsetY);
+				// console.log(ev.screenX + ', ' + ev.screenY);
+				// $('#DIOModel1').css({'left': ev.offsetX + 'px', 'top': ev.offsetY + 'px'});
+				$('#DIOModel1').css({ 'left': 10 + 'px', 'top': 10 + 'px' });
+				// $('#popup_div').css('top',offset.top + 'px').css('left',offset.left + 'px').show();
+
+			}
+		},
+		out: addMachine,
+
+	});
+
+
+	// ### DIO draggable + resizable
+	$('.DIO').draggable({
 		// handle: '.handler',
 		cursor: 'move',
 		revert: 'invalid',
@@ -133,34 +149,48 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 		scroll: false,
 		grid: [10, 10],
 		stop: layoutSessionStorage,			// store status after drag DIO
+		start: function () {
+			console.log();
+		}
 	}).resizable({
 		// alsoResize: pic,
 		stop: layoutSessionStorage,			// store status after resize DIO
-	});
-
-	// 2. layout resizable + droppable
-	$("#layout").resizable({
-		stop: layoutSessionStorage,			// store status after resize layout
-	}).droppable({
-		over: function() {
-			ev.preventDefault();
-		},
-		out: addMachine,
-
+		start: function () {
+			console.log();
+		}
 	});
 
 
-	// 3. DIO model draggable
-	$('.machineClass').draggable({
+	// ### DIO model draggable
+	$('.DIOModel').draggable({
 		accept: $('#layout'),
-		start: function() {
-			imgSrc = event.target.src;		// 
-			console.log('開始移動.machine -> #layout');
-		},
-		stop: addMachine,					// 
+		revert: 'invalid',
+
+		stop: function (ev, ui) {
+			if (ev.target.parentElement.id === "layout") {
+
+			}
+
+
+		}
+
+		// start: function () {
+		// 	imgSrc = event.target.src;		// 
+		// 	console.log('開始移動.machine -> #layout');
+		// },
+		// stop: addMachine,					// 
+
+	}).droppable({
+		containment: $('#layout'),
+		drop: function (ev, ui) {
+			$(this).append($("ui.draggable").clone());
+			$(".DIO").draggable({
+				containment: 'parent',
+				grid: [10, 10]
+			});
+		}
 	});
 
-	// 4. DIO
 }
 
 
@@ -213,6 +243,7 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 	*/
 	p = {
 		"id": "plantLayout",
+		"user": "(UserName)",
 		"width": pw,
 		"height": ph,
 		"objects": function (ev, o) {
@@ -259,68 +290,3 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 	// sessionStorage.setItem('layoutStatus', JSON.stringify(p));
 }
 
-
-
-// function dragStart(ev) {
-// 	imgSrc = ev.target.src;
-// }
-
-
-// function asideSection() { //左側打勾控制開始 , 暫無功能
-// 	function onChecked(num) {
-// 		var target = ".choose" + num;
-
-// 		if ($(target).css("opacity") == 1) {
-// 			$(target).fadeTo(300, 0);
-// 		} else {
-// 			$(target).fadeTo(300, 1);
-// 		}
-// 	}
-
-// 	function mosIn(num) {
-// 		var target = ".checkFont" + num;
-// 		$(target).css("font-weight", 900);
-// 		$(target).css("color", "#FF0000");
-// 	}
-
-// 	function mosOut(num) {
-// 		var target = ".checkFont" + num;
-// 		$(target).css("font-weight", 500);
-// 		$(target).css("color", "#000000");
-// 	}
-// }
-
-
-
-// function headerClick() { //叫出選單的function
-// 	$("#header").click();
-// }
-
-
-
-// function AllowDrop(event) {
-// 	event.preventDefault();
-// }
-
-
-
-function updateFile() {
-	$("#uu").click();
-}
-
-
-
-function uploadHandler() {	// 判斷所選圖片, 符合條件的話附加到網頁上
-	if (this.files[0].type == 'image/jpeg' || 'image/jpg' || 'image/bmp' || 'image/png') {
-		var file = this.files[0];
-		var fr = new FileReader();
-		fr.onload = function () {
-			var img = event.target.result;
-			$('#imgDIV').append('<img src="' + img + '" class="machine" />');
-		}
-		fr.readAsDataURL(file);
-
-	} else {
-		alert("Only allowed: jpeg/jpg/bmp/png");
-	}
-}
