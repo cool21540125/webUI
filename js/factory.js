@@ -122,7 +122,17 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 				// ui.helper[0].classList.add('DIO')
 				ui.helper[0].classList = 'DIO ' + ui.helper[0].classList;
 				ui.helper[0].classList.remove("DIOModel");
-				ev.target.appendChild(ui.helper[0]);
+				// ev.target.appendChild(ui.helper[0]);
+				var a = ui.helper[0];
+
+
+				var idController = 1;
+
+				//@@
+				var appendString ='<div class="DIO"></div>';
+
+				$('#layout').append(appendString);
+
 
 				// console.log(ev.offsetX + ', ' + ev.offsetY);
 				// console.log(ev.screenX + ', ' + ev.screenY);
@@ -164,8 +174,10 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 	// ### DIO model draggable
 	$('.DIOModel').draggable({
 		accept: $('#layout'),
-		revert: 'invalid',
-
+		revert: true,
+		helper: function(ev) {
+			return $( "<div class='ui-widget-header'>~~ Drag me to layout ~~</div>" );
+		},
 		stop: function (ev, ui) {
 			if (ev.target.parentElement.id === "layout") {
 
