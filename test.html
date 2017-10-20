@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.css">
+        <link rel="stylesheet" href="css/demo.css">
+        <link rel="stylesheet" href="css/jquery.mmenu.all.css">
+        <link rel="stylesheet" href="css/factory.css">
+
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+        <script src="js/jquery.mmenu.all.js"></script>
+        <script src="js/factory.js"></script>
+    <title>Document</title>
+    <style>
+        div#books {
+            border: 1px solid black;
+            height: 200px;
+            width: 200px;
+        }
+
+        .hover {
+            border-color: red;
+        }
+
+        .basket {
+            border: transparent solid 2px;
+        }
+
+        div.book {
+            height: 40px;
+            width: 40px;
+            border: 1px dashed blue;
+        }
+
+
+        div#shopping {
+            border: 1px solid red;
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="books">
+        <div id="c1" class="book"></div>
+        <div id="c2" class="book"></div>
+    </div>
+
+    <div id="shopping" class="basket">
+
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    var zindex = 10;
+    $("div.book").draggable({
+        helper: 'clone',
+        // revert: "invalid",
+        stop: function(ev, ui) {
+            $(ev.target)[0].classList.remove('book');
+        }
+
+    });
+
+    $("div#shopping").droppable({
+        // hoverClass: 'hover',
+        drop: function(ev, ui) {
+            $('div#shopping').append(ui.draggable);
+            // $('ui.draggable').css({ position:'relative', top:'0px', left: '0px'})
+            //     .css({opacity:1});
+            $('div#shopping')[0].classList.add('dd');
+            
+        }
+    });
+
+    $('div.dd').draggable({
+        containment: 'parent',
+    })
+</script>

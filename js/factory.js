@@ -1,152 +1,103 @@
-var imgSrc = "";
-
-
 
 // ●●● main function
 $(function () {
-	restoreLayoutSessionStorage(); 						// 1. Restore previous layout
+	restoreLayoutSessionStorage(); 						//  Restore previous layout
 
-	operateDIO(); 										// 2. addEvent: Plant objects draggable + resizable + droppable
-
-
-});
-
-
-function checkID() {	// 判斷要付加上去的element ID
-	var p;
-	JSON.parse(sessionStorage.getItem('layoutStatus'));
-	if ((p = JSON.parse(sessionStorage.getItem('layoutStatus'))) !== null) { // storage為非空值 -> 嘗試作還原
-		try {
-			var ss = p.objects; // DIO storage
-			if (ss[0] !== "") {	// storage內找不到可還原的物件則結束
-				for (var j = 0; j < ss.length; j++) { // Restore DIO one by one
-
-				}
-			}
-		} catch (err) {
-			console.log('Error happened when restore sessionStorage checkID()');
-		}
-	}
-	return 0;
-}
-
-
-
-function restoreLayoutSessionStorage() { // Restore previous layout
-	/* 作3件事情:
-	1. 還原場區大小
-	2. 還原場區物件
-	3. 還原場區物件大小及位置
-	@@BUG: top, left為不正確的top, left, 需搭配offsetTop, clientTop, 等等來計算真實的top, left
-	*/
-
-	var p; // Layout storage
-	if ((p = JSON.parse(sessionStorage.getItem('layoutStatus'))) !== null) { // storage為非空值 -> 嘗試作還原
-		try {
-			// 1. 還原場區大小
-			$('#layout').css('width', p.width); // restore layout width
-			$('#layout').css('height', p.height); // restore layout height
-
-			var ss = p.objects; // DIO storage
-			if (ss[0] !== "") {	// storage內找不到可還原的物件則結束
-				for (var j = 0; j < ss.length; j++) { // Restore DIO one by one
-
-					var a = $(ss[j].html); // 還原為 html -> 抓出內部結構(jQuery物件), 取[0]後可變回javaScript物件
-
-					// 2. 還原場區物件
-					a.appendTo('#layout');
-
-					// 3. 還原場區物件大小及位置
-					a.css('top', ss[j].top);
-					a.css('left', ss[j].left);
-					a.css('width', ss[j].width);
-					a.css('height', ss[j].height);
-				}
-			}
-		} catch (err) {
-			console.log('Error happened when restore sessionStorage');
-		}
-	}
-}
-
-
-
-function addMachine(ev) { // Draggable!  圖片src放入layout
-	if (ev != null && imgSrc != "") {
-
-		var idController = checkID();
-
-		var machine = "#machine" + idController;
-		var pic = "#machinePic" + idController;
-
-		var appendString =
-			'<div class="machineClass row-sm-1" id="machine' + idController + '">' +
-			'<div class="handler">' + '<<HandlerName>>' + '</div>' +
-			'<img src="' + imgSrc + '" id="machinePic' + idController + '" ' +
-			'class="machinePhoto" style="width:160px;height:120px;margin: 0px;" ondblclick="headerClick()">' +
-			'</div>';
-
-		/* 附加字串的結構
-		<div class="machineClass" id="machine<i>">
-			<div class="handler"></div>
-			<img src="..." id="machinePic<i>" class="machinePhoto" ondblclick="headerClick()" />
-		</div>  */
-		$('#layout').append(appendString);
-
-
-		// @
-		$(".machineClass").css("position", "absolute");
-		$(".machineClass").on('click', function (ev) {
-			$(this).css('zIndex', 2);
-		})
-		operateDIO(ev);
-
-		imgSrc = "";
-	}
-}
-
-
-function operateDIO(ev) {	//draggable + resizable by jQuery UI
-
-	// ### Layout resizable + droppable
-	$("#layout").resizable({
-		stop: layoutSessionStorage,			// store status after resize layout
-	}).droppable({
-		helper: 'clone',
-		grid: [20, 20],
-		drop: function (ev, ui) {
-			// console.log('drag .DIOModel -> #layout: 先觸發#layout droppable(), 再觸發.DIOModel draggable()');
-			if (ui.helper[0].parentNode.id === 'DIOModelList') {
-				// var DIO = $(ui.helper).clone(true).removeClass('DIOModel').addClass('DIO').appendTo('#DIOModel1');
-
-				// ui.helper[0].classList.add('DIO')
-				ui.helper[0].classList = 'DIO ' + ui.helper[0].classList;
-				ui.helper[0].classList.remove("DIOModel");
-				// ev.target.appendChild(ui.helper[0]);
-				var a = ui.helper[0];
-
-
-				var idController = 1;
-
-				//@@
-				var appendString ='<div class="DIO"></div>';
-
-				$('#layout').append(appendString);
-
-
-				// console.log(ev.offsetX + ', ' + ev.offsetY);
-				// console.log(ev.screenX + ', ' + ev.screenY);
-				// $('#DIOModel1').css({'left': ev.offsetX + 'px', 'top': ev.offsetY + 'px'});
-				$('#DIOModel1').css({ 'left': 10 + 'px', 'top': 10 + 'px' });
-				// $('#popup_div').css('top',offset.top + 'px').css('left',offset.left + 'px').show();
-
-			}
+	$('.DIOModel').draggable({								//  .DIOModel draggable + resizable
+		accept: $('#layout'),
+		revert: true,
+		grid: [10, 10],
+		helper: function (ev) {
+			return $(ev.target.outerHTML);
 		},
-		out: addMachine,
+		start: function (ev, ui) {
+			originalDIOModelBorderCSS = $(ui.draggable).css('border');
+			$(ui.draggable).css('border', '1px dashed red');	// 拖入放置前, 改變#layout 邊框
+		},
+		stop: function (ev, ui) {
+			$(ui.draggable).css('border', '1px solid gray');	// 拖入放置後, 還原#layout 邊框
 
+			$(ev.target).css('id', )
+			layoutSessionStorage(ev, ui);	// ev.target === '.DIOModel'
+		},
 	});
 
 
+	makeDIODraggable();
+
+
+	$("#layout").resizable({								//  #layout resizable + droppable
+		scroll: true,
+		grid: [30, 30],
+		ghost: true,
+		// animate: true,
+		// helper: 'helper',
+		stop: layoutSessionStorage,			// store status after resize layout
+		resize: function (ev, ui) {
+			$('#info').text('top= ' + ui.position.top + ', left= ' + ui.position.left + ', width= ' + ui.size.width + ', height ' + ui.size.height);
+		}
+
+	}).droppable({
+		helper: 'clone',
+		classes: 'hover',
+		grid: [20, 20],
+		// over: function (ev, ui) {			// above droppable area
+		// 	$(ev.target).css('border', '3px dashed blue');
+		// },
+		// out: function (ev, ui) {			// leave droppable area
+		// 	$(ev.target).css('border', '3px solid gray');
+		// },
+		drop: function (ev, ui) {
+			// console.log('drag .DIOModel -> #layout: 先觸發#layout droppable.stop(), 再觸發.DIOModel draggable.stop()');
+			if (ui.helper[0].parentNode.id === 'DIOModelList') {
+
+				var q = $(ui.draggable).clone()
+				q[0].classList.add('DIO')
+				q[0].classList.remove("DIOModel");
+
+				q.attr('id', 'DIO' + getDIOID());
+
+				$(ev.target).append(q);
+
+				// var iid = idChecker(); //@@ 新增DIO的id
+
+				$(q[0]).css({ 'position': 'absolute', 'left': ev.offsetX, 'top': ev.offsetY });
+
+				makeDIODraggable(ev, ui);
+
+
+			}
+			$(ev.target).css('border', '3px solid gray');
+
+			// layoutSessionStorage(ev, ui);	// ev.target === '#layout'
+		},
+	});
+});
+
+
+function getDIOID() {
+	var p = sessionStorage.getItem('layoutStatus');
+	var ss;
+	if (p === null) {
+		return 0;
+	} else if (( ss = JSON.parse(p).objects)[0] !== '' ) {
+
+	} else if (ss[0] === ""){
+		return 0;
+
+	} else {
+		return ss.length;
+
+	}
+}
+
+
+function makeDIODraggable(ev, ui) {	//draggable + resizable by jQuery UI
+
+	// ### Layout resizable + droppable
+
+
+	var zindex = 1;
 	// ### DIO draggable + resizable
 	$('.DIO').draggable({
 		// handle: '.handler',
@@ -160,54 +111,33 @@ function operateDIO(ev) {	//draggable + resizable by jQuery UI
 		grid: [10, 10],
 		stop: layoutSessionStorage,			// store status after drag DIO
 		start: function () {
+			$(this).css("z-index", zindex++);
 			console.log();
 		}
+
 	}).resizable({
 		// alsoResize: pic,
 		stop: layoutSessionStorage,			// store status after resize DIO
-		start: function () {
+		alsoResize: $(this).children(),
+		resize: function (ev, ui) {
 			console.log();
+
 		}
 	});
-
-
-	// ### DIO model draggable
-	$('.DIOModel').draggable({
-		accept: $('#layout'),
-		revert: true,
-		helper: function(ev) {
-			return $( "<div class='ui-widget-header'>~~ Drag me to layout ~~</div>" );
-		},
-		stop: function (ev, ui) {
-			if (ev.target.parentElement.id === "layout") {
-
-			}
-
-
-		}
-
-		// start: function () {
-		// 	imgSrc = event.target.src;		// 
-		// 	console.log('開始移動.machine -> #layout');
-		// },
-		// stop: addMachine,					// 
-
-	}).droppable({
-		containment: $('#layout'),
-		drop: function (ev, ui) {
-			$(this).append($("ui.draggable").clone());
-			$(".DIO").draggable({
-				containment: 'parent',
-				grid: [10, 10]
-			});
-		}
-	});
-
 }
 
+// function makeDIOResizable(ev, ui) {
+// 	$('.DIO').resizable({
+// 		// alsoResize: pic,
+// 		stop: layoutSessionStorage,			// store status after resize DIO
+// 		alsoResize: $(this).children(),
+// 	})
+// }
 
 
-function layoutSessionStorage(ev, obj) { // Execute when stop dragging
+
+
+function layoutSessionStorage(ev, ui) { // Execute when stop dragging
 	// Store DIO property
 	var o; // DIO
 	var p; // 廠房物件
@@ -255,7 +185,7 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 	*/
 	p = {
 		"id": "plantLayout",
-		"user": "(UserName)",
+		"author": "(UserName)",
 		"width": pw,
 		"height": ph,
 		"objects": function (ev, o) {
@@ -298,7 +228,55 @@ function layoutSessionStorage(ev, obj) { // Execute when stop dragging
 			}
 		}(ev, o)
 	}
-	// console.log(JSON.parse(sessionStorage.getItem('layoutStatus')));
-	// sessionStorage.setItem('layoutStatus', JSON.stringify(p));
+
+	debugPrint(p, ev, ui);
+	sessionStorage.setItem('layoutStatus', JSON.stringify(p));
 }
 
+function debugPrint(p, ev, ui) {
+	var str = '';
+	for (var i = 0; i < p.objects.length; i++) {
+		str += '\tid= ' + p.objects[i].id + ',\t(top, left, height, width)= (' + p.objects[i].top + ', ' + p.objects[i].left + ', ' + p.objects[i].height + ', ' + p.objects[i].width + ')\n';
+	}
+	console.log('ev.target.id= ' + ev.target.id + '\n' + 'ui.helper[0].id= ' + ui.helper[0].id + '\n' +
+		'p.objects.length= ' + p.objects.length + '\n' + str);
+	console.log();
+}
+
+function restoreLayoutSessionStorage() { // Restore previous layout
+	/* 作3件事情:
+	1. 還原場區大小
+	2. 還原場區物件
+	3. 還原場區物件大小及位置
+	@@BUG: top, left為不正確的top, left, 需搭配offsetTop, clientTop, 等等來計算真實的top, left
+	*/
+
+	var p; // Layout storage
+	if ((p = JSON.parse(sessionStorage.getItem('layoutStatus'))) !== null) { // storage為非空值 -> 嘗試作還原
+		try {
+			// 1. 還原場區大小
+			$('#layout').css('width', p.width); // restore layout width
+			$('#layout').css('height', p.height); // restore layout height
+
+			var ss = p.objects; // DIO storage
+			if (ss[0] !== "") {	// storage內找不到可還原的物件則結束
+				for (var j = 0; j < ss.length; j++) { // Restore DIO one by one
+
+					var a = $(ss[j].html); // 還原為 html -> 抓出內部結構(jQuery物件), 取[0]後可變回javaScript物件
+
+					// 2. 還原場區物件
+					a.appendTo('#layout');
+
+					// 3. 還原場區物件大小及位置
+					a.css('top', ss[j].top);
+					a.css('left', ss[j].left);
+					a.css('width', ss[j].width);
+					a.css('height', ss[j].height);
+				}
+				// makeDIOResizable();
+			}
+		} catch (err) {
+			console.log('Error happened when restore sessionStorage');
+		}
+	}
+}
