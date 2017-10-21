@@ -1,6 +1,6 @@
 div#layout { /* 場區 */
-	border-radius: 5px;
-	height: 300px;
+	border-radius: 10px;
+	height: 200px;
     border: 3px solid gray;
     overflow: auto;
     padding: 0px;
@@ -16,7 +16,7 @@ div#layout { /* 場區 */
 div.DIO { /* 場區DIO物件 */
 	width:80px;
 	height: 80px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     border: 1px dashed gray;
     position: absolute;
 	/* margin: 1em; */
@@ -24,7 +24,7 @@ div.DIO { /* 場區DIO物件 */
 
 
 div#DIOModelList { /* DIO模型實體化後的起始位置 */
-    border: 5px dashed blue;
+    border: 3px solid black;
     height: 300px;
 }
 

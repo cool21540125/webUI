@@ -3,22 +3,52 @@
 $(function () {
 	restoreLayoutSessionStorage(); 						//  Restore previous layout
 
+	var originalHelperBorderStyle;	// 拖拉.DIOModel形成的ui.helper的原始 border style
+	var isDropOntoLayout = false;			// 拖放後的目標位置(應為 #layout)
+	var isDraggingDIOModel = false;			// 拖拉目標是否為 .DIOModel(裡面的元素也可能被單獨拖拉)
 	$('.DIOModel').draggable({								//  .DIOModel draggable + resizable
 		accept: $('#layout'),
-		revert: true,
 		grid: [10, 10],
+		addClasses: true,
 		helper: function (ev) {
-			return $(ev.target.outerHTML);
+			if (ev.target.tagName === 'DIV' && ev.target.classList.contains('DIOModel')) {
+				isDraggingDIOModel = true;
+				return $(ev.target.outerHTML);
+			} else {
+				isDraggingDIOModel = false;
+				return '<div>拉外面的框框!!</div>';
+			}
+
 		},
 		start: function (ev, ui) {
-			originalDIOModelBorderCSS = $(ui.draggable).css('border');
-			$(ui.draggable).css('border', '1px dashed red');	// 拖入放置前, 改變#layout 邊框
+			originalHelperBorderStyle = ui.helper.css('border');
+			ui.helper.css('border', '1px dashed red');	// 拖入放置前, 改變.DIOModel.helper 邊框
 		},
-		stop: function (ev, ui) {
-			$(ui.draggable).css('border', '1px solid gray');	// 拖入放置後, 還原#layout 邊框
+		stop: function (ev, ui) {	// ev.target === #DIOModel
+			if (isDropOntoLayout && isDraggingDIOModel) {
+				ui.helper.css('border', originalHelperBorderStyle);	// 拖入放置後, 還原.DIOModel.helper 邊框
 
-			$(ev.target).css('id', )
-			layoutSessionStorage(ev, ui);	// ev.target === '.DIOModel'
+				var q = $(ui.helper[0]).context;
+
+				q.classList.add('DIO');
+				q.classList.remove('DIOModel');
+
+				q.id = 'DIO' + getDIOID();	// DIOModelxxx ---> DIOxxx
+
+				$(q).css({ 'position': 'absolute', 'left': ui.offset.left, 'top': ui.offset.top });
+
+				$('#layout').append(q.outerHTML);
+
+				makeDIODraggable(ev, ui);
+
+				$(ev.target).css('id', )
+				layoutSessionStorage(ev, ui);	// ev.target === '.DIOModel'
+
+
+				isDropOntoLayout = false;
+				isDraggingDIOModel = false;
+			}
+
 		},
 	});
 
@@ -26,6 +56,7 @@ $(function () {
 	makeDIODraggable();
 
 
+	var tmpStyle;
 	$("#layout").resizable({								//  #layout resizable + droppable
 		scroll: true,
 		grid: [30, 30],
@@ -41,48 +72,43 @@ $(function () {
 		helper: 'clone',
 		classes: 'hover',
 		grid: [20, 20],
-		// over: function (ev, ui) {			// above droppable area
-		// 	$(ev.target).css('border', '3px dashed blue');
-		// },
-		// out: function (ev, ui) {			// leave droppable area
-		// 	$(ev.target).css('border', '3px solid gray');
-		// },
-		drop: function (ev, ui) {
-			// console.log('drag .DIOModel -> #layout: 先觸發#layout droppable.stop(), 再觸發.DIOModel draggable.stop()');
-			if (ui.helper[0].parentNode.id === 'DIOModelList') {
+		over: function (ev, ui) {			// above droppable area
+			tmpStyle = $(ev.target).css('border')
+			$(ev.target).css('border', '3px dashed blue');
+		},
+		out: function (ev, ui) {			// leave droppable area
+			// $(ev.target).css('border', '3px solid gray');
+			$(ev.target).css('border', tmpStyle);
+		},
+		drop: function (ev, ui) { // ev.target === #layout
+			/* drag .DIOModel -> #layout: 
+				先觸發 #layout    droppable.drop(), 
+				再觸發 .DIOModel  draggable.stop()');
+			*/
 
-				var q = $(ui.draggable).clone()
-				q[0].classList.add('DIO')
-				q[0].classList.remove("DIOModel");
-
-				q.attr('id', 'DIO' + getDIOID());
-
-				$(ev.target).append(q);
-
-				// var iid = idChecker(); //@@ 新增DIO的id
-
-				$(q[0]).css({ 'position': 'absolute', 'left': ev.offsetX, 'top': ev.offsetY });
-
-				makeDIODraggable(ev, ui);
-
-
+			if (isDraggingDIOModel) {	// 拖曳對象若為DIOModel
+				isDropOntoLayout = true;	// .DIOModel.draggable.stop() 的判斷依據
 			}
-			$(ev.target).css('border', '3px solid gray');
 
-			// layoutSessionStorage(ev, ui);	// ev.target === '#layout'
+			$(ev.target).css('border', tmpStyle);
 		},
 	});
+	
+	// $('#layout').on('mousemove', function (ev) {	// 僅debug用: 顯示滑鼠於 #layout上的座標(不含邊框)
+	// 	$('#coord').text((ev.clientX - ev.target.offsetLeft - $(ev.target).context.clientLeft) + ', ' + (ev.clientY - ev.target.offsetTop - $(ev.target).context.clientTop));
+	// })
 });
 
 
 function getDIOID() {
+
 	var p = sessionStorage.getItem('layoutStatus');
 	var ss;
 	if (p === null) {
 		return 0;
-	} else if (( ss = JSON.parse(p).objects)[0] !== '' ) {
+	} else if ((ss = JSON.parse(p).objects)[0] !== '') {
 
-	} else if (ss[0] === ""){
+	} else if (ss[0] === "") {
 		return 0;
 
 	} else {
@@ -230,7 +256,7 @@ function layoutSessionStorage(ev, ui) { // Execute when stop dragging
 	}
 
 	debugPrint(p, ev, ui);
-	sessionStorage.setItem('layoutStatus', JSON.stringify(p));
+	// sessionStorage.setItem('layoutStatus', JSON.stringify(p));
 }
 
 function debugPrint(p, ev, ui) {
