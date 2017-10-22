@@ -39,9 +39,13 @@ $(function () {
 
 				$('#layout').append(q.outerHTML);
 
-				makeDIODraggable(ev, ui);
+				$(ev.target).css('id', getDIOID());
 
-				$(ev.target).css('id', )
+				// 變更參考: 拖曳創造的新DIO無法透過ev, ui抓取, 故改變原始參考
+				ev.target = $('#layout')[0].lastChild
+				ui.helper[0] = $('#layout')[0].lastChild
+
+				makeDIODraggable(ev, ui);
 				layoutSessionStorage(ev, ui);	// ev.target === '.DIOModel'
 
 
@@ -93,7 +97,7 @@ $(function () {
 			$(ev.target).css('border', tmpStyle);
 		},
 	});
-	
+
 	// $('#layout').on('mousemove', function (ev) {	// 僅debug用: 顯示滑鼠於 #layout上的座標(不含邊框)
 	// 	$('#coord').text((ev.clientX - ev.target.offsetLeft - $(ev.target).context.clientLeft) + ', ' + (ev.clientY - ev.target.offsetTop - $(ev.target).context.clientTop));
 	// })
@@ -137,8 +141,8 @@ function makeDIODraggable(ev, ui) {	//draggable + resizable by jQuery UI
 		grid: [10, 10],
 		stop: layoutSessionStorage,			// store status after drag DIO
 		start: function () {
-			$(this).css("z-index", zindex++);
-			console.log();
+			// $(this).css("z-index", zindex++);
+			// console.log();
 		}
 
 	}).resizable({
@@ -146,7 +150,7 @@ function makeDIODraggable(ev, ui) {	//draggable + resizable by jQuery UI
 		stop: layoutSessionStorage,			// store status after resize DIO
 		alsoResize: $(this).children(),
 		resize: function (ev, ui) {
-			console.log();
+			// console.log();
 
 		}
 	});
@@ -197,6 +201,7 @@ function layoutSessionStorage(ev, ui) { // Execute when stop dragging
 		*/
 
 	} else { // 事件由廠區物件trigger
+
 		pw = ev.target.offsetWidth;
 		ph = ev.target.offsetHeight;
 		o = "";
@@ -209,13 +214,15 @@ function layoutSessionStorage(ev, ui) { // Execute when stop dragging
 	
 	日後改寫 
 	*/
-	p = {
-		"id": "plantLayout",
-		"author": "(UserName)",
-		"width": pw,
-		"height": ph,
-		"objects": function (ev, o) {
-			var s = JSON.parse(sessionStorage.getItem('layoutStatus'));
+
+	var s = JSON.parse(sessionStorage.getItem('layoutStatus'));
+
+	if (s !== null) {
+		var getNumber = function () { // 所有DIO.length(含此次新增後)
+			return s.objects.length;
+		}
+
+		var getObjects = function (ev, o) { // #layout 內所有 .DIO
 
 			if (s === null || s.objects === undefined) { // 首次執行時, 無session
 				return [o];
@@ -252,22 +259,69 @@ function layoutSessionStorage(ev, ui) { // Execute when stop dragging
 				var s = JSON.parse(sessionStorage.getItem('layoutStatus'));
 				var newDIOStatus = {};
 			}
-		}(ev, o)
+		}
+
+		var getEstablishDate = function () { // #layout 首次建立日期 (應該要點選存檔時, 再來回傳日期)
+			if (s === null) {
+				return new Date().toLocaleString(); // typeof new Date().toLocaleString() === string
+			} else {
+				return s.establishDate;
+			}
+		}
+
+		var getLastModifiedDate = function () { // #layout 最近一次存檔日期
+			return new Date().toLocaleString();
+		}
+
+		var setLayoutName = function () {
+			// 使用者點選存檔案, 再詢問要儲存的layoutName
+			return "tmpLayoutName";
+		}
+
+		var getUserGroup = function () {	// 使用者所在群組
+			// 第一版暫無,
+			return ""
+		}
+
+		var getAuthority = function () {	//此 #layout的權限等級
+			/* ex: 等級1~9
+				若使用者權限等級只有1(永遠只能看)
+				若想修改此 #layout的狀態, 則使用者or使用者群組的authority必須>此 #layout的authority
+			*/
+			return 3;
+		}
+
+		p = {	// layout的JSON儲存格式 
+			"app": "plantLayout",	// 應用場合
+			"author": "(UserName)",	// 佈置者userID
+			"width": pw,	// #layout width
+			"height": ph,	// #layout height
+			"number": getNumber(),	// number of DIOs in #layout
+			"objects": getObjects(ev, o),	// all DIOs
+			"establishDate": getEstablishDate(),	// 
+			"lastModifiedDate": getLastModifiedDate(),
+			"layoutName": setLayoutName(),
+			"userGroup": getUserGroup(),
+			"authority": getAuthority(),
+			"html": $('#layout')[0].outerHTML,
+		}
 	}
 
-	debugPrint(p, ev, ui);
-	// sessionStorage.setItem('layoutStatus', JSON.stringify(p));
+	if (p !== undefined) { console.log(p); }	// debug.Print
+
+	// 儲存狀態到 sessionStorage
+	sessionStorage.setItem('layoutStatus', JSON.stringify(p));
 }
 
-function debugPrint(p, ev, ui) {
-	var str = '';
-	for (var i = 0; i < p.objects.length; i++) {
-		str += '\tid= ' + p.objects[i].id + ',\t(top, left, height, width)= (' + p.objects[i].top + ', ' + p.objects[i].left + ', ' + p.objects[i].height + ', ' + p.objects[i].width + ')\n';
-	}
-	console.log('ev.target.id= ' + ev.target.id + '\n' + 'ui.helper[0].id= ' + ui.helper[0].id + '\n' +
-		'p.objects.length= ' + p.objects.length + '\n' + str);
-	console.log();
-}
+// function debugPrint(p, ev, ui) {
+// 	var str = '';
+// 	for (var i = 0; i < p.objects.length; i++) {
+// 		str += '\tid= ' + p.objects[i].id + ',\t(top, left, height, width)= (' + p.objects[i].top + ', ' + p.objects[i].left + ', ' + p.objects[i].height + ', ' + p.objects[i].width + ')\n';
+// 	}
+// 	console.log('ev.target.id= ' + ev.target.id + '\n' + 'ui.helper[0].id= ' + ui.helper[0].id + '\n' +
+// 		'p.objects.length= ' + p.objects.length + '\n' + str);
+// 	console.log();
+// }
 
 function restoreLayoutSessionStorage() { // Restore previous layout
 	/* 作3件事情:
